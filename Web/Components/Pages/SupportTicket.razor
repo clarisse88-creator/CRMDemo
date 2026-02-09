@@ -6,7 +6,9 @@
 
 @using Domain.Entities
 @using Application.Services.Tickets
+@using MudBlazor
 @inject ITicketService TicketService
+
 
 
 <PageTitle>Ticket</PageTitle>
@@ -21,7 +23,54 @@
 <MudContainer MaxWidth="MaxWidth.Large" Class="py-8">
     <MudPaper Elevation="0" Class="mb-6">
         <MudStack Row="true" Spacing="3" AlignItems="AlignItems.Center" Class="p-6">
- <table class="table">
+            <MudTable Items="_supportTicket" Hover="true" Bordered="true" Striped="true">
+                <HeaderContent>
+                    <MudTh>Id</MudTh>
+                    <MudTh>CustomerId</MudTh>
+                    <MudTh>Subject</MudTh>
+                    <MudTh>Description</MudTh>
+                    <MudTh>Status</MudTh>
+                    <MudTh>CreatedAt</MudTh>
+                    <MudTh>CreatedBy</MudTh>
+                    <MudTh>Priority</MudTh>
+                    <MudTh>Type</MudTh>
+                    <MudTh>ClosedAt</MudTh>
+                    <MudTh>Action</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd >@context.Id</MudTd>
+                    <MudTd >@context.CustomerId</MudTd>
+                    <MudTd >@context.Subject</MudTd>
+                    <MudTd >@context.Description</MudTd>
+                    <MudTd >@context.Status</MudTd>
+                    <MudTd >@context.CreatedAt</MudTd>
+                    <MudTd >@context.CreatedBy</MudTd>
+                    <MudTd >@context.Priority</MudTd>
+                    <MudTd >@context.Type</MudTd>
+                    <MudTd >@context.closedAt</MudTd>
+                    <MudTd Style="text-align:center"> </MudTd>
+                        <MudStack Row="true" Spacing="2" Justify="Justify.Center">
+                            <MudButton Href="@string.Format("/SupportTicket/Edit/{0}", context.Id)" 
+                                       Variant="Variant.Filled" 
+                                       Color="Color.Warning" 
+                                       Size="Size.Small"
+                                       StartIcon="@Icons.Material.Filled.Edit">
+                                Edit
+                            </MudButton>
+                            <MudButton Href="@string.Format("/SupportTicket/{0}", context.Id)" 
+                                       Variant="Variant.Filled" 
+                                       Color="Color.Primary" 
+                                       Size="Size.Small"
+                                       StartIcon="@Icons.Material.Filled.MoreHoriz">
+                                View
+                            </MudButton>
+                        </MudStack>
+                    
+
+                </RowTemplate>
+
+            </MudTable>
+ @* <table class="table">
         <thead>
             <tr>
             <th>Id</th>
@@ -50,11 +99,11 @@
             <td>@Ticket.CreatedBy</td>
             <td>@Ticket.Priority</td>
             <td>@Ticket.Type</td>
-            <td>@Ticket.closedAt</td>
-             <td>
+            <td>@Ticket.closedAt</td> *@
+             
                   @* <a href="/SupportTicket/@Ticket.Id" class="btn btn-primary">Details</a>
                   <a href="/SupportTicket/Edit/@Ticket.Id" class="btn btn-primary">Edit</a> *@
-                  <MudTd DataLabel="Actions" Style="text-align:center">
+                  @* <MudTd DataLabel="Actions" Style="text-align:center">
                     <MudStack Row="true" Spacing="2" Justify="Justify.Center">
              <MudButton Href="@string.Format("/SupportTicket/Edit/{0}", Ticket.Id)" 
                                    Variant="Variant.Filled" 
@@ -77,7 +126,10 @@
     }
     </table>
      </MudStack>
+     </MudPaper> *@
+      </MudStack>
      </MudPaper>
+
 </MudContainer>
 
 

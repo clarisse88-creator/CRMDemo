@@ -18,69 +18,59 @@
 </div>
 <MudContainer MaxWidth="MaxWidth.Large" Class="py-8">
     <MudPaper Elevation="0" Class="mb-6">
-        <MudStack Row="true" Spacing="3" AlignItems="AlignItems.Center" Class="p-6">
-<table class="table">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Address</th>
-            <th>PhoneNumber</th>
-            <th>City</th>
-            <th>Type</th>
-            <th>Status</th>
-            <th>CreatedAt</th>
-            <th>Action</th>
+        <MudStack Row="true" Spacing="1" AlignItems="AlignItems.Center" Class="p-6">
+            <MudTable Items="customers" Hover="true" Bordered="true" Striped="true">
+                <HeaderContent>
+                    <MudTh>Id</MudTh>
+                    <MudTh>Name</MudTh>
+                    <MudTh>Email</MudTh>
+                    <MudTh>Address</MudTh>
+                    <MudTh>PhoneNumber</MudTh>
+                    <MudTh>City</MudTh>
+                    <MudTh>Type</MudTh>
+                    <MudTh>Status</MudTh>
+                    <MudTh>CreatedAt</MudTh>
+                    <MudTh>Action</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd >@context.Id</MudTd>
+                    <MudTd >@context.Name</MudTd>
+                    <MudTd >@context.Email</MudTd>
+                    <MudTd >@context.Address</MudTd>
+                    <MudTd >@context.PhoneNumber</MudTd>
+                    <MudTd >@context.City</MudTd>
+                    <MudTd >@context.Type</MudTd>
+                    <MudTd >@context.Status</MudTd>
+                    <MudTd >@context.CreatedAt</MudTd>
+                   
+                    
+                    <MudTd Style="text-align:center">   </MudTd>
+                        <MudStack Row="true" Spacing="2" Justify="Justify.Center">
+                            <MudButton Href="@string.Format("/Customers/Edit/{0}", context.Id)" 
+                                       Variant="Variant.Filled" 
+                                       Color="Color.Warning" 
+                                       Size="Size.Small"
+                                       StartIcon="@Icons.Material.Filled.Edit">
+                                Edit
+                            </MudButton>
+                            <MudButton Href="@string.Format("/Customers/{0}", context.Id)" 
+                                       Variant="Variant.Filled" 
+                                       Color="Color.Primary" 
+                                       Size="Size.Small"
+                                       StartIcon="@Icons.Material.Filled.MoreHoriz">
+
+                                View
+                              
+                           </MudButton>
+                        </MudStack>
+                </RowTemplate>
+
+            </MudTable>
             
-        </tr>
-    </thead>
-    @foreach (var Customer in customers)
-
-    {
-        <tr>
-            <td>@Customer.Id</td>
-            <td>@Customer.Name</td>
-            <td>@Customer.Email</td>
-            <td>@Customer.Address</td>
-            <td>@Customer.PhoneNumber</td>
-            <td>@Customer.City</td>
-            <td>@Customer.Type</td>
-            <td>@Customer.Status</td>
-            <td>@Customer.CreatedAt</td>
-            <td>@Customer.CreatedBy</td>
-            <td>
-                 
-            @* <a href="/Customers/@Customer.Id" class="btn btn-primary">Details</a> *@
-            @* <a href="/Customers/edit/@Customer.Id" class="btn btn-primary">Edit</a> *@
-            <MudTd DataLabel="Actions" Style="text-align:center">
-                    <MudStack Row="true" Spacing="2" Justify="Justify.Center">
-             <MudButton Href="@string.Format("/Customers/edit/{0}", Customer.Id)" 
-                                   Variant="Variant.Filled" 
-                                   Color="Color.Warning" 
-                                   Size="Size.Small"
-                                   StartIcon="@Icons.Material.Filled.Edit">
-                            Edit
-                        </MudButton>
-             <MudButton Href="@string.Format("/Customers/{0}", Customer.Id)" 
-                                   Variant="Variant.Filled" 
-                                   Color="Color.Primary" 
-                                   Size="Size.Small"
-                                   StartIcon="@Icons.Material.Filled.MoreHoriz">
-                            View
-                        </MudButton>
-                       </MudStack>
-                </MudTd>
-                  
-            </td>
-        </tr>
-    }
-    </table>
-    </MudStack>
+     </MudStack>
      </MudPaper>
+
 </MudContainer>
-
-
   
 
 @code {

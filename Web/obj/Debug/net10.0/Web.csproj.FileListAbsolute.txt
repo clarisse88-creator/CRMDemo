@@ -278,3 +278,4 @@ C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\ref\Web.dll
 C:\Users\HP\source\repos\CRMDemo\Web\bin\Debug\net10.0\MudBlazor.dll
 C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\compressed\tzxjg6is5z-{0}-7c7lhmh1j6-7c7lhmh1j6.gz
 C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\compressed\0wz98yz2xy-{0}-f96y5mhlyw-f96y5mhlyw.gz
+C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\Web.sourcelink.json

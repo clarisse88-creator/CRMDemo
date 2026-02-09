@@ -20,3 +20,4 @@ C:\Users\HP\source\repos\CRMDemo\Core\Domain\obj\Debug\net10.0\Domain.dll
 C:\Users\HP\source\repos\CRMDemo\Core\Domain\obj\Debug\net10.0\refint\Domain.dll
 C:\Users\HP\source\repos\CRMDemo\Core\Domain\obj\Debug\net10.0\Domain.pdb
 C:\Users\HP\source\repos\CRMDemo\Core\Domain\obj\Debug\net10.0\ref\Domain.dll
+C:\Users\HP\source\repos\CRMDemo\Core\Domain\obj\Debug\net10.0\Domain.sourcelink.json
