@@ -1,0 +1,81 @@
+@page "/SupportTicket/Create"
+
+@rendermode InteractiveServer
+
+@using Application.DTO
+@using Application.Services.Tickets
+@using System.ComponentModel.DataAnnotations
+@inject ITicketService TicketService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create Ticket</PageTitle>
+
+
+   
+  @* <a href="/SupportTicket" class="btn btn-secondary">Back to List</a> *@
+<MudButton Href="/SupportTicket"  Variant="Variant.Filled" Color="Color.Secondary">Back to List</MudButton>
+
+    <h3>Create Ticket</h3>
+<div class="container mt-4">
+  <div class="row justify-content-center">
+
+<EditForm Model="@Model" OnValidSubmit="OnvalidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary  class="alert alert-danger py-2 mb-3"/>
+
+    <div class="row g-2 mb-2"> 
+       <div class="col-md-6 ">
+            <label for="FirstName" class="form-label"> CustomerId</label>
+            <InputText id="FirstName" class="form-control" @bind-Value="Model.CustomerId" placeholder="Enter CustomerId" />
+            <ValidationMessage For="@(() => Model.CustomerId)" class="text-danger"/>
+       </div>
+       <div class="col-md-6 ">
+            <label for="Email" class="form-label"> Subject</label>
+            <InputText id="Email" class="form-control" @bind-Value="Model.Subject" placeholder="Enter Subject" />
+            <ValidationMessage For="@(() => Model.Subject)" class="text-danger"/>
+       </div>
+       <div class="col-md-6 ">
+            <label for="PhoneNumber" class="form-label"> Description</label>
+            <InputText id="PhoneNumber" class="form-control" @bind-Value="Model.Description" placeholder="Enter Description" />
+            <ValidationMessage For="@(() => Model.Description)" class="text-danger"/>
+       </div>
+       <div class="col-md-6 ">
+            <label for="Address" class="form-label"> Status</label>
+            <InputText id="Address" class="form-control" @bind-Value="Model.Status" placeholder="Enter Status" />
+            <ValidationMessage For="@(() => Model.Status)" class="text-danger"/>
+       </div>
+        <div class="col-md-6 ">
+            <label for="City" class="form-label"> Priority</label>
+            <InputText id="City" class="form-control" @bind-Value="Model.Priority" placeholder="Enter Priority" />
+            <ValidationMessage For="@(() => Model.Priority)" class="text-danger"/>
+       </div>
+        <div class="col-md-6 ">
+            <label for="Type" class="form-label"> Type</label>
+            <InputText id="Type" class="form-control" @bind-Value="Model.Type" placeholder="Enter Type" />
+            <ValidationMessage For="@(() => Model.Type)" class="text-danger"/>
+       </div>
+        @* <div class="col-md-6 ">
+            <label for="ClosedAt" class="form-label"> closedAt</label>
+            <InputText id="ClosedAt" class="form-control" @bind-Value="Model.ClosedAt" placeholder="Enter ClosedAt" />
+            <ValidationMessage For="@(() => Model.ClosedAt)" class="text-danger"/>
+       </div> *@
+    <div>
+       @* <button type="submit" class="btn btn-primary mt-3">Create Ticket</button>
+       <a href="/SupportTicket" class="btn btn-link btn text-muted">Cancel</a> *@
+       <MudButton Href="/SupportTicket" Variant="Variant.Filled" Color="Color.Error">Cancel</MudButton>
+       <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OnvalidSubmit">Create Ticket</MudButton>
+    </div>
+    </div>
+    </EditForm>
+    </div>  
+    </div>
+     
+
+@code{
+    private TicketCreateDTO Model { get;set; } =new();
+    private void OnvalidSubmit()
+    {
+        TicketService.CreateTicket(Model);
+        NavigationManager.NavigateTo("/SupportTicket");
+    }
+}

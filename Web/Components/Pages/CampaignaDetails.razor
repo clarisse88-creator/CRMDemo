@@ -1,0 +1,96 @@
+@page "/Campaigns/{Id:int}"
+
+@using Domain.Entities
+@using Application.Services.Campaigns
+@using MudBlazor
+@using System.Globalization
+@inject ICampaignService CampaignService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Campaign</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Medium" Class="py-8">
+    @if (Campaign != null)
+    {
+        <MudCard>
+            <MudCardHeader Class="d-flex justify-space-between align-center">
+                <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="BackToCampaigns" StartIcon="@Icons.Material.Filled.ArrowBack">
+                    Back to Campaigns
+                </MudButton>
+                <MudText Typo="Typo.h5" Class="ml-auto">Campaign Details</MudText>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudGrid Spacing="2">
+                    <MudItem xs="12" sm="6">
+                        <MudTextField Label="Campaign ID" Value="@Campaign.Id.ToString()" ReadOnly="true" Variant="Variant.Outlined" />
+                    </MudItem>
+
+                    <MudItem xs="12" sm="6">
+                        <MudTextField Label="Campaign Name" Value="@Campaign.Name" ReadOnly="true" Variant="Variant.Outlined" />
+                    </MudItem>
+
+                    <MudItem xs="12">
+                        <MudTextField Label="Description" Value="@Campaign.Description" ReadOnly="true" Variant="Variant.Outlined" Lines="3" />
+                    </MudItem>
+
+                    <MudItem xs="12" sm="6">
+                        <MudTextField Label="Start Date" Value="@FormattedStartDate" ReadOnly="true" Variant="Variant.Outlined" />
+                    </MudItem>
+
+                    <MudItem xs="12" sm="6">
+                        <MudTextField Label="End Date" Value="@FormattedEndDate" ReadOnly="true" Variant="Variant.Outlined" />
+                    </MudItem>
+
+                    <MudItem xs="12" sm="6">
+                        <MudTextField Label="Budget" Value="@FormattedBudget" ReadOnly="true" Variant="Variant.Outlined" />
+                    </MudItem>
+
+                    <MudItem xs="12" sm="6">
+                        <MudChip T="string" Color="@GetStatusColor(Campaign.Status)" Icon="@Icons.Material.Filled.Info">
+                            @Campaign.Status
+                        </MudChip>
+                    </MudItem>
+                </MudGrid>
+            </MudCardContent>
+        </MudCard>
+    }
+    else
+    {
+        <MudAlert Severity="Severity.Warning">Campaign not found.</MudAlert>
+    }
+</MudContainer>
+
+@code {
+    //this  is for details of campaign on clicked Id 
+    [Parameter]
+    public int Id { get; set; }
+    
+    private Campaign Campaign;
+    protected override void OnInitialized()
+    {
+        Campaign = CampaignService.GetCampaignById(Id);
+    }
+
+    private void BackToCampaigns()
+    {
+        NavigationManager.NavigateTo("/Campaigns");
+    }
+///format date and budget
+    private string FormattedStartDate => Campaign?.StartDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) ?? string.Empty;
+    private string FormattedEndDate => Campaign?.EndDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) ?? string.Empty;
+    private string FormattedBudget => Campaign?.Budget ?? string.Empty;
+//
+    
+//status color
+    private Color GetStatusColor(string status)
+    {
+        return status?.ToLower() switch
+        {
+            "active" => Color.Success,
+            "inactive" => Color.Default,
+            "completed" => Color.Info,
+            "pending" => Color.Warning,
+            _ => Color.Default
+        };
+    }
+}

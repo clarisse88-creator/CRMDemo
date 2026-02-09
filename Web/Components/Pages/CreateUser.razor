@@ -1,0 +1,75 @@
+@page "/Users/Create"
+
+@rendermode InteractiveServer
+
+@using Application.DTO
+@using Application.Services.Users
+@using System.ComponentModel.DataAnnotations
+@inject IUserService UserService
+@inject NavigationManager NavigationManager
+@using System.Net.Http.Json
+<PageTitle>Create User</PageTitle>
+
+
+   
+  @* <a href="/Users" class="btn btn-secondary">Back to List</a> *@
+<MudButton Href="/Users" Variant="Variant.Filled" Color="Color.Secondary">Back to List</MudButton>
+
+    <h3>Create User</h3>
+<div class="container mt-4">
+  <div class="row justify-content-center">
+
+<EditForm Model="@Model" OnValidSubmit="OnvalidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary  class="alert alert-danger py-2 mb-3"/>
+
+    <div class="row g-2 mb-2"> 
+       <div class="col-md-6 ">
+            <label for="FirstName" class="form-label"> FirstName</label>
+            <InputText id="FirstName" class="form-control" @bind-Value="Model.FirstName" placeholder="Enter FirstName" />
+            <ValidationMessage For="@(() => Model.FirstName)" class="text-danger"/>
+       </div>
+       <div class="col-md-6 ">
+            <label for="Email" class="form-label"> LastName</label>
+            <InputText id="Email" class="form-control" @bind-Value="Model.LastName" placeholder="Enter LastName" />
+            <ValidationMessage For="@(() => Model.LastName)" class="text-danger"/>
+       </div>
+       <div class="col-md-6 ">
+            <label for="PhoneNumber" class="form-label"> Email</label>
+            <InputText id="PhoneNumber" class="form-control" @bind-Value="Model.Email" placeholder="Enter Email" />
+            <ValidationMessage For="@(() => Model.Email)" class="text-danger"/>
+       </div>
+       <div class="col-md-6 ">
+            <label for="Address" class="form-label"> PhoneNumber</label>
+            <InputText id="Address" class="form-control" @bind-Value="Model.PhoneNumber" placeholder="Enter PhoneNumber" />
+            <ValidationMessage For="@(() => Model.PhoneNumber)" class="text-danger"/>
+       </div>
+        <div class="col-md-6 ">
+            <label for="City" class="form-label"> Password</label>
+            <InputText id="City" class="form-control" @bind-Value="Model.Password" placeholder="Enter Password" />
+            <ValidationMessage For="@(() => Model.Password)" class="text-danger"/>
+       </div>
+       
+        <div class="col-md-6 ">
+            <label for="CreatedBy" class="form-label"> Role</label>
+            <InputText id="CreatedBy" class="form-control" @bind-Value="Model.Role" placeholder="Enter Role" />
+            <ValidationMessage For="@(() => Model.Role)" class="text-danger"/>
+       </div>
+    <div>
+              <MudButton Href="/Users" Variant="Variant.Filled" Color="Color.Error">Cancel</MudButton>
+       <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OnvalidSubmit">Create Ticket</MudButton>
+    </div>
+    </div>
+    </EditForm>
+    </div>  
+    </div>
+     
+
+@code{
+    private UserCreateDTO Model { get;set; } =new();
+    private void OnvalidSubmit()
+    {
+        UserService.CreateUser(Model);
+        NavigationManager.NavigateTo("/Users");
+    }
+}

@@ -1,0 +1,93 @@
+﻿
+@using Domain.Entities
+@using Application.Services.Customers
+@using MudBlazor
+@page "/Customers"
+
+@inject ICustomerService CustomerService 
+
+<PageTitle>Customer</PageTitle>
+
+<h3>Welcome to Customers page</h3>
+
+<div> 
+@* <a href="/Customers/create" class="btn btn-secondary">Add Customer</a> *@
+      @* <MudButton Href="/Customers/create" Variant="Variant.Filled" Color="Color.Primary">Add Customer</MudButton> *@
+<MudSpacer />
+ <MudButton Href="/Customers/create" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large">Add New Customer </MudButton>
+</div>
+<MudContainer MaxWidth="MaxWidth.Large" Class="py-8">
+    <MudPaper Elevation="0" Class="mb-6">
+        <MudStack Row="true" Spacing="3" AlignItems="AlignItems.Center" Class="p-6">
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>PhoneNumber</th>
+            <th>City</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>CreatedAt</th>
+            <th>Action</th>
+            
+        </tr>
+    </thead>
+    @foreach (var Customer in customers)
+
+    {
+        <tr>
+            <td>@Customer.Id</td>
+            <td>@Customer.Name</td>
+            <td>@Customer.Email</td>
+            <td>@Customer.Address</td>
+            <td>@Customer.PhoneNumber</td>
+            <td>@Customer.City</td>
+            <td>@Customer.Type</td>
+            <td>@Customer.Status</td>
+            <td>@Customer.CreatedAt</td>
+            <td>@Customer.CreatedBy</td>
+            <td>
+                 
+            @* <a href="/Customers/@Customer.Id" class="btn btn-primary">Details</a> *@
+            @* <a href="/Customers/edit/@Customer.Id" class="btn btn-primary">Edit</a> *@
+            <MudTd DataLabel="Actions" Style="text-align:center">
+                    <MudStack Row="true" Spacing="2" Justify="Justify.Center">
+             <MudButton Href="@string.Format("/Customers/edit/{0}", Customer.Id)" 
+                                   Variant="Variant.Filled" 
+                                   Color="Color.Warning" 
+                                   Size="Size.Small"
+                                   StartIcon="@Icons.Material.Filled.Edit">
+                            Edit
+                        </MudButton>
+             <MudButton Href="@string.Format("/Customers/{0}", Customer.Id)" 
+                                   Variant="Variant.Filled" 
+                                   Color="Color.Primary" 
+                                   Size="Size.Small"
+                                   StartIcon="@Icons.Material.Filled.MoreHoriz">
+                            View
+                        </MudButton>
+                       </MudStack>
+                </MudTd>
+                  
+            </td>
+        </tr>
+    }
+    </table>
+    </MudStack>
+     </MudPaper>
+</MudContainer>
+
+
+  
+
+@code {
+    List<Customer> customers = new List<Customer>();
+    protected override void OnInitialized()
+        {
+            customers = CustomerService.GetAllCustomers();
+        }     
+    }
+  

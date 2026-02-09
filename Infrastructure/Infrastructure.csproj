@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <packageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.0" />
+    <packageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.0" />
+    <packageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
+    <packageReference Include="Microsoft.Extensions.Configuration" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+  <ProjectReference Include="../Core/Application/Application.csproj" />
+  </ItemGroup>
+</Project>

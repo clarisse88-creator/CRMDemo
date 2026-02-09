@@ -1,0 +1,108 @@
+@page "/SupportTicket/Edit/{Id:int}"
+
+@rendermode InteractiveServer
+
+@using Application.DTO
+@using Application.Services.Tickets
+@using System.ComponentModel.DataAnnotations
+@using System.Configuration
+@inject ITicketService TicketService
+@inject NavigationManager NavigationManager
+<PageTitle>Edit Ticket</PageTitle>
+
+<h3>Edit Ticket</h3>
+<a href="/SupportTicket" class="btn btn-secondary">Back to List</a>
+    <h3>Edit Ticket</h3>
+    @if (loaded)
+    {
+        <div class="container mt-4">
+        <div class="row justify-content-center">
+
+        <EditForm Model="@Model" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary  class="alert alert-danger py-2 mb-3"/>
+
+            <div class="row g-2 mb-2"> 
+            <div class="col-md-6 ">
+                    <label for="Subject" class="form-label"> Subject</label>
+                    <InputText id="Subject" class="form-control" @bind-Value="Model.Subject" placeholder="Enter Subject" />
+                    <ValidationMessage For="@(() => Model.Subject)" class="text-danger"/>
+            </div>
+            <div class="col-md-6 ">
+                    <label for="Description" class="form-label"> Description</label>
+                    <InputText id="Description" class="form-control" @bind-Value="Model.Description" placeholder="Enter Description" />
+                    <ValidationMessage For="@(() => Model.Description)" class="text-danger"/>
+            </div>
+            <div class="col-md-6 ">
+                    <label for="Status" class="form-label"> Status</label>
+                    <InputText id="Status" class="form-control" @bind-Value="Model.Status" placeholder="Enter Status" />
+                    <ValidationMessage For="@(() => Model.Status)" class="text-danger"/>
+            </div>
+                <div class="col-md-6 ">
+                    <label for="City" class="form-label"> Priority</label>
+                    <InputText id="City" class="form-control" @bind-Value="Model.Priority" placeholder="Enter Priority" />
+                    <ValidationMessage For="@(() => Model.Priority)" class="text-danger"/>
+            </div>
+                <div class="col-md-6 ">
+                    <label for="Type" class="form-label"> Type</label>
+                    <InputText id="Type" class="form-control" @bind-Value="Model.Type" placeholder="Enter Type" />
+                    <ValidationMessage For="@(() => Model.Type)" class="text-danger"/>
+            </div>
+                <div class="col-md-6 ">
+                    <label for="closedAt" class="form-label"> closedAt</label>
+                    <InputDate id="closedAt" class="form-control" @bind-Value="Model.closedAt" placeholder="Enter closedAt" />
+                    <ValidationMessage For="@(() => Model.closedAt)" class="text-danger"/>
+            </div>
+            <div>
+            <button type="submit" class="btn btn-primary mt-3">Edit Ticket</button>
+            <a href="/SupportTicket" class="btn btn-link btn text-muted">Cancel</a>
+            </div>
+            </div>
+            </EditForm>
+    
+    </div>  
+    </div>
+    }
+    else
+    {
+        <p>Loading...</p>
+        }
+    
+
+@code{
+    [Parameter]
+    public int Id { get; set; }
+
+    public TicketUpdateDTO Model{ get;set;}=new();
+    private bool loaded;
+
+    protected override void OnParametersSet()
+    
+    {
+        var ticket=TicketService.GetTicketById(Id);
+        if(ticket!=null)
+        {
+            Model=new TicketUpdateDTO
+            {
+                Subject=ticket.Subject??"", 
+                Description=ticket.Description??"",
+                Status=ticket.Status??"",
+                @* CreatedBy=ticket.CreatedBy??"", *@
+                Priority=ticket.Priority?? "",
+                Type=ticket.Type??"",
+                  @* closedAt=ticket.dateTimeToString(ticket.closedAt)??"", *@
+                closedAt=ticket.closedAt,
+                
+                
+            };
+            loaded=true;
+        }
+       
+    }
+    private  void OnValidSubmit()
+    {
+        if (Model == null) return;
+        TicketService.UpdateTicket(Id,Model);
+        NavigationManager.NavigateTo("/SupportTicket");
+    }
+}
