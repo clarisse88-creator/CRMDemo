@@ -6,9 +6,7 @@
 
 @using Domain.Entities
 @using Application.Services.Tickets
-@using MudBlazor
 @inject ITicketService TicketService
-
 
 
 <PageTitle>Ticket</PageTitle>
@@ -38,7 +36,7 @@
                     <MudTh>Action</MudTh>
                 </HeaderContent>
                 <RowTemplate>
-                    <MudTd >@context.Id</MudTd>
+                    <MudTd DataLabel="Id">@context.Id</MudTd>
                     <MudTd >@context.CustomerId</MudTd>
                     <MudTd >@context.Subject</MudTd>
                     <MudTd >@context.Description</MudTd>
@@ -100,7 +98,7 @@
             <td>@Ticket.Priority</td>
             <td>@Ticket.Type</td>
             <td>@Ticket.closedAt</td> *@
-             
+          
                   @* <a href="/SupportTicket/@Ticket.Id" class="btn btn-primary">Details</a>
                   <a href="/SupportTicket/Edit/@Ticket.Id" class="btn btn-primary">Edit</a> *@
                   @* <MudTd DataLabel="Actions" Style="text-align:center">
@@ -127,10 +125,13 @@
     </table>
      </MudStack>
      </MudPaper> *@
-      </MudStack>
+     
+  
+     </MudStack>
      </MudPaper>
 
 </MudContainer>
+
 
 
 @code {

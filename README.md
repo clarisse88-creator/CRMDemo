@@ -56,3 +56,13 @@ CrmDemo  support ticket deleted for mudblazor is for all page before mud blazor
     </table>
      </MudStack>
      </MudPaper> 
+
+    *************************** home page******************
+
+    @page "/"
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.

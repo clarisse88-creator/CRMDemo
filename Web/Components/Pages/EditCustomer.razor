@@ -11,8 +11,10 @@
 <PageTitle>Edit Customer</PageTitle>
 
 <h3>Edit Customer</h3>
-<a href="/Customers" class="btn btn-secondary">Back to List</a>
-    <h3>Edit Customer</h3>
+@* <a href="/Customers" class="btn btn-secondary">Back to List</a> *@
+<MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="BackToCustomers" StartIcon="@Icons.Material.Filled.ArrowBack"> Back</MudButton>
+
+  
     @if (loaded)
     {
         <div class="container mt-4">
@@ -56,9 +58,9 @@
             <div>
             <button type="submit" class="btn btn-primary mt-3">Edit Customer</button>
             @* <a href="/Customers" class="btn btn-link btn text-muted">Cancel</a> *@
-            <MudButton Type="Submit" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Edit">Edit Customer</MudButton>
+            @* <MudButton Type="Submit" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Edit">Edit Customer</MudButton> *@
             <MudButton Href="@string.Format("/Customers")" Variant="Variant.Text" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Cancel">Cancel</MudButton>
-            <MudButton Href="/Customers" Variant="Variant.Filled" Color="Color.Primary">Add Customer</MudButton>
+          
 
             </div>
             </div>
@@ -105,6 +107,10 @@
     {
         if (Model == null) return;
         CustomerService.UpdateCustomer(Id,Model);
+        NavigationManager.NavigateTo("/Customers");
+    }
+     private void BackToCustomers()
+    {
         NavigationManager.NavigateTo("/Customers");
     }
 }
