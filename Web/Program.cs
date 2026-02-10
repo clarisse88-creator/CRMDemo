@@ -3,7 +3,6 @@ using Web.Components;
 using Application.Services.Customers;
 using Application.Services.Tickets;
 using Application.Services.Campaigns;
-using Application.Services.Users;
 using Infrastructure.DependencyInjection;
 using MudBlazor.Services;
 
@@ -22,7 +21,7 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
  builder.Services.AddScoped<ICustomerService, CustomerService>();
  builder.Services.AddScoped<ITicketService, TicketService>();
  builder.Services.AddScoped<ICampaignService, CampaignService>();
- builder.Services.AddScoped<IUserService, UserService>();
+ 
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

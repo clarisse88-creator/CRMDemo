@@ -19,7 +19,7 @@ namespace Infrastructure.DependencyInjection
              services.AddScoped<ICustomer, CustomerRepository>();
              services.AddScoped<ICampaign, CampaignRepository>();
              services.AddScoped<ITicket, TicketRepository>();
-             services.AddScoped<IUser, UserRepository>();
+            //  services.AddScoped<IUser, UserRepository>();
 
             return services;
         }

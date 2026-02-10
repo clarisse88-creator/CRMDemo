@@ -52,7 +52,7 @@ namespace Infrastructure.Repositories
                 ticket.Priority = ticketDTO.Priority;
                 ticket.Type = ticketDTO.Type;
                 ticket.closedAt = ticketDTO.closedAt;
-                ticket.UpdatedById = 1;
+               
                 ticket.UpdatedAt = DateTime.Now;
 
                 dbContext.SaveChanges();

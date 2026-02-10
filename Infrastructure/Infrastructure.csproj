@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+   <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.4" />
+   <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.0" />
+   <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="10.0.0" />
     <packageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.0" />
     <packageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.0" />
     <packageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
@@ -16,4 +19,5 @@
   <ItemGroup>
   <ProjectReference Include="../Core/Application/Application.csproj" />
   </ItemGroup>
+
 </Project>

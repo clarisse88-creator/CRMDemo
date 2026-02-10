@@ -8,7 +8,7 @@ namespace Application.DTO
         public string Description { get; set; }
         public string Status { get; set; }
         public DateTime CreatedAt { get; set; }
-        public string CreatedBy { get; set; }
+        
         public string Priority { get; set; }
         public string Type { get; set; }
         public DateTime closedAt { get; set; }

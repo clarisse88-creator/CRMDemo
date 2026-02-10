@@ -14,8 +14,6 @@
         // Audit Fields
         public DateTime UpdatedAt { get; set; }= DateTime.Now;
         public int? CreatedById { get; set; }
-        public User CreatedBy { get; set; }
-        public User UpdatedBy { get; set; }
         public int? UpdatedById { get; set; }
 
 

@@ -36,7 +36,7 @@ namespace Infrastructure.Repositories
                 EndDate = campaignDTO.EndDate,
                 Budget = campaignDTO.Budget,
                 Status = campaignDTO.Status,
-                CreatedById=1,
+              
                 
 
             };

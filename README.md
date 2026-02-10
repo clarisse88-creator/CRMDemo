@@ -67,7 +67,7 @@ CrmDemo  support ticket deleted for mudblazor is for all page before mud blazor
 
 Welcome to your new app.
 
-@* 
+@**************User using boostrap before mudblazor********************* 
 <table class="table">
     <thead>
         <tr>
@@ -98,9 +98,9 @@ Welcome to your new app.
             
 
             <td>
-            @* <a href="/Users/@User.Id" class="btn btn-primary">Details</a>
+            <a href="/Users/@User.Id" class="btn btn-primary">Details</a>
             <a href="/Users/edit/@User.Id" class="btn btn-primary">Edit</a> *@
-            @* <MudTd DataLabel="Actions" Style="text-align:center">
+             <MudTd DataLabel="Actions" Style="text-align:center">
                     <MudStack Row="true" Spacing="2" Justify="Justify.Center">
              <MudButton Href="@string.Format("/Users/Edit/{0}", User.Id)" 
                                    Variant="Variant.Filled" 
@@ -124,7 +124,16 @@ Welcome to your new app.
     </table> *@ *@
 
    *************************Authontication for security purpose**********************
+  entity core  infrastructure auth
+   entity frame work core linking database
+   identity UI
+            #####
+   Infrastructure identity folder
 
+   extend into APPdbcontext
+   using identity table remover old user crate user identity
+
+   
 
    **********************
 

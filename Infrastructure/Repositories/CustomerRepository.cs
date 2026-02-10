@@ -31,7 +31,7 @@ namespace Infrastructure.Repositories
                 Address = customerDTO.Address,
                 City = customerDTO.City,
                 Type = customerDTO.Type,
-                CreatedById=1,
+                
                 CreatedAt = DateTime.Now,
                 Status = "Active"
 
