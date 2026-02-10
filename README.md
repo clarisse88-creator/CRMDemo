@@ -66,3 +66,67 @@ CrmDemo  support ticket deleted for mudblazor is for all page before mud blazor
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+
+@* 
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>Email</th>
+            <th>PhoneNumber</th>
+            <th>Password</th>
+            <th>Role</th>
+            <th>Status</th>
+
+            
+        </tr>
+    </thead>
+    @foreach (var User in users)
+
+    {
+        <tr>
+            <td>@User.Id</td>
+            <td>@User.FirstName</td>
+            <td>@User.LastName</td>
+            <td>@User.Email</td>
+            <td>@User.PhoneNumber</td>
+            <td>@User.Password</td>
+            <td>@User.Role</td>
+            
+            
+
+            <td>
+            @* <a href="/Users/@User.Id" class="btn btn-primary">Details</a>
+            <a href="/Users/edit/@User.Id" class="btn btn-primary">Edit</a> *@
+            @* <MudTd DataLabel="Actions" Style="text-align:center">
+                    <MudStack Row="true" Spacing="2" Justify="Justify.Center">
+             <MudButton Href="@string.Format("/Users/Edit/{0}", User.Id)" 
+                                   Variant="Variant.Filled" 
+                                   Color="Color.Warning" 
+                                   Size="Size.Small"
+                                   StartIcon="@Icons.Material.Filled.Edit">
+                            Edit
+                        </MudButton>
+             <MudButton Href="@string.Format("/Users/{0}", User.Id)" 
+                                   Variant="Variant.Filled" 
+                                   Color="Color.Primary" 
+                                   Size="Size.Small"
+                                   StartIcon="@Icons.Material.Filled.MoreHoriz">
+                            View
+                        </MudButton>
+                       </MudStack>
+                </MudTd>
+            </td>
+        </tr>
+    }
+    </table> *@ *@
+
+   *************************Authontication for security purpose**********************
+
+
+   **********************
+
+
+
