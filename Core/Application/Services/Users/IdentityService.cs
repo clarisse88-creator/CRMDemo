@@ -17,10 +17,10 @@ namespace Application.Services.Users
             Identity = identity;
         }
      
-            public void RegisterUser(RegisterUserDTO dto)
+            public async Task RegisterUser(RegisterUserDTO dto)
         {
             // Implementation for user registration can be added here
-             Identity.RegisterUser(dto);
+             await Identity.RegisterUser(dto);
         }
     } 
 }

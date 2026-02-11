@@ -7,7 +7,7 @@ namespace Application.Interface.Users
  {
    public interface IIdentityService 
     {
-    void RegisterUser (RegisterUserDTO  dto);
+  public Task RegisterUser (RegisterUserDTO  dto);
 
 
     }
