@@ -20,17 +20,17 @@ namespace Infrastructure.Identity
                option.DefaultScheme =IdentityConstants.ApplicationScheme;
            }).AddIdentityCookies();
 
-           services.AddIdentityCore<User>(Options =>
+           services.AddIdentityCore<User>(options =>
            {
-              Options.Password.RequireDigit =true;
-              Options.Password.RequiredLength =8; 
-              Options.Password.RequireUppercase =true;
-
-              Options.User.RequireUniqueEmail =true;
-
-              Options.SignIn.RequireConfirmedAccount =true;
-              Options.Lockout.MaxFailedAccessAttempts =3;
-              
+                 options.Password.RequireDigit = true;
+                 options.Password.RequireLowercase = true;
+                 options.Password.RequireNonAlphanumeric = false;
+                 options.Password.RequireUppercase = true;
+                 options.Password.RequiredLength = 8;
+                 options.User.RequireUniqueEmail = true;
+                 options.SignIn.RequireConfirmedAccount = true;
+                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                 options.Lockout.MaxFailedAccessAttempts = 5;
 
            })
            .AddRoles<IdentityRole<int>>()
@@ -44,12 +44,12 @@ namespace Infrastructure.Identity
              
            });
 
-           services.ConfigureApplicationCookie(Options =>
+           services.ConfigureApplicationCookie(options =>
            {
-               Options.Cookie.Name ="CRMDemo";
-               Options.Cookie.HttpOnly =true;
-               Options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
-               Options.Cookie.SameSite = SameSiteMode.Lax;               
+               options.Cookie.Name ="CRMDemo";
+               options.Cookie.HttpOnly =true;
+               options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+               options.Cookie.SameSite = SameSiteMode.Lax;               
            });
 
            return services;

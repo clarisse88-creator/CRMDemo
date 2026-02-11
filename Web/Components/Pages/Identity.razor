@@ -1,83 +1,290 @@
+@page "/"
 
-@page "/Identity"
+@page "/login"
+@page "/register"
+@rendermode InteractiveServer
 
-@using Web.Components.Layout
+@using Application.Services.Users
+@using Application.DTO
 @using System.ComponentModel.DataAnnotations
+@using MudBlazor
+@inject IIdentityService IdentityService
+@inject NavigationManager NavigationManager
 
-<MudPaper Class="pa-6 mx-auto mt-12" Elevation="6" Style="max-width:400px;">
-    <MudText Typo="Typo.h5" Align="Align.Center" Class="mb-4">
-        Login 
-    </MudText>
+<PageTitle>Login / Register - CRM Demo</PageTitle>
 
-    <EditForm Model="@loginModel" OnValidSubmit="HandleLogin">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-        
-        <MudTextField @bind-Value="loginModel.FirstName"
-                      Label="First Name"
-                      Variant="Variant.Outlined"
-                      Required="true"
-                      RequiredError="FirstName is required"
-                      For="@(() => loginModel.FirstName)"
-                      Class="mb-3" />
+<div class="auth-container">
+    <MudContainer MaxWidth="MaxWidth.Small" Class="mt-16">
+        <MudPaper Elevation="4" Class="pa-8">
+            <MudTabs Rounded="true" ApplyEffectsToContainer="true">
 
-        <MudTextField @bind-Value="loginModel.LastName"
-                      Label="Last Name"
-                      Variant="Variant.Outlined"
-                      Required="true"
-                      RequiredError="LastName is required"
-                      For="@(() => loginModel.LastName)"
-                      Class="mb-3" />
-                      
-        <MudTextField @bind-Value="loginModel.Email"
-                      Label="Email"
-                      Variant="Variant.Outlined"
-                      Required="true"
-                      RequiredError="Email is required"
-                      For="@(() => loginModel.Email)"
-                      Class="mb-3" />
+                <!-- Login Tab -->
+                <MudTabPanel Text="Login">
+                    <MudText Typo="Typo.h4" Class="mb-6 text-center">Sign In</MudText>
+                    <MudForm @ref="loginForm" Model="@LoginModel">
+                        <MudTextField @bind-Value="LoginModel.Email"
+                                      Label="Email"
+                                      Variant="Variant.Outlined"
+                                      Required="true"
+                                      RequiredError="Email is required"
+                                      Class="mb-4" />
 
-        
+                        <MudTextField @bind-Value="LoginModel.Password"
+                                      Label="Password"
+                                      Variant="Variant.Outlined"
+                                      InputType="@PasswordInputType"
+                                      Adornment="Adornment.End"
+                                      AdornmentIcon="@PasswordIcon"
+                                      OnAdornmentClick="TogglePassword"
+                                      Required="true"
+                                      RequiredError="Password is required"
+                                      Class="mb-6" />
 
-        <MudButton ButtonType="ButtonType.Submit"
-                   Variant="Variant.Filled"
-                   Color="Color.Primary"
-                   FullWidth="true">
-            Login
-        </MudButton>
-    </EditForm>
-    </MudPaper>
+                        @if (!string.IsNullOrEmpty(ErrorMessage))
+                        {
+                            <MudAlert Severity="Severity.Error" Class="mb-4">@ErrorMessage</MudAlert>
+                        }
 
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   FullWidth="true"
+                                   OnClick="OnLoginSubmit"
+                                   Disabled="isLoading">
+                            @if (isLoading)
+                            {
+                                <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-3" />
+                                <span>Signing In...</span>
+                            }
+                            else
+                            {
+                                <span>Sign In</span>
+                            }
+                        </MudButton>
+                    </MudForm>
+                </MudTabPanel>
 
+                <!-- Register Tab -->
+                <MudTabPanel Text="Register">
+                    <MudText Typo="Typo.h4" Class="mb-6 text-center">Create Account</MudText>
+                    <MudForm @ref="registerForm" Model="@RegisterModel">
+
+                        <MudTextField @bind-Value="RegisterModel.FirstName"
+                                      Label="First Name"
+                                      Variant="Variant.Outlined"
+                                      Required="true"
+                                      RequiredError="First name is required"
+                                      Class="mb-4" />
+
+                        <MudTextField @bind-Value="RegisterModel.LastName"
+                                      Label="Last Name"
+                                      Variant="Variant.Outlined"
+                                      Required="true"
+                                      RequiredError="Last name is required"
+                                      Class="mb-4" />
+
+                        <MudTextField @bind-Value="RegisterModel.Email"
+                                      Label="Email"
+                                      Variant="Variant.Outlined"
+                                      InputType="InputType.Email"
+                                      Required="true"
+                                      RequiredError="Email is required"
+                                      Class="mb-4" />
+
+                        <MudTextField @bind-Value="RegisterModel.PhoneNumber"
+                                      Label="Phone Number"
+                                      Variant="Variant.Outlined"
+                                      Class="mb-4" />
+
+                        <MudTextField @bind-Value="RegisterModel.Password"
+                                      Label="Password"
+                                      Variant="Variant.Outlined"
+                                      InputType="@PasswordInputType"
+                                      Adornment="Adornment.End"
+                                      AdornmentIcon="@PasswordIcon"
+                                      OnAdornmentClick="TogglePassword"
+                                      Required="true"
+                                      RequiredError="Password is required"
+                                      Class="mb-4" />
+
+                        <MudTextField @bind-Value="ConfirmPassword"
+                                      Label="Confirm Password"
+                                      Variant="Variant.Outlined"
+                                      InputType="@ConfirmPasswordInputType"
+                                      Adornment="Adornment.End"
+                                      AdornmentIcon="@ConfirmPasswordIcon"
+                                      OnAdornmentClick="ToggleConfirmPassword"
+                                      Required="true"
+                                      RequiredError="Confirm password is required"
+                                      Class="mb-6" />
+
+                        @if (!string.IsNullOrEmpty(RegisterErrorMessage))
+                        {
+                            <MudAlert Severity="Severity.Error" Class="mb-4">@RegisterErrorMessage</MudAlert>
+                        }
+
+                        @if (!string.IsNullOrEmpty(SuccessMessage))
+                        {
+                            <MudAlert Severity="Severity.Success" Class="mb-4">@SuccessMessage</MudAlert>
+                        }
+
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   FullWidth="true"
+                                   OnClick="OnRegisterSubmit"
+                                   Disabled="isRegistering">
+                            @if (isRegistering)
+                            {
+                                <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-3" />
+                                <span>Creating Account...</span>
+                            }
+                            else
+                            {
+                                <span>Register</span>
+                            }
+                        </MudButton>
+                    </MudForm>
+                </MudTabPanel>
+
+            </MudTabs>
+        </MudPaper>
+    </MudContainer>
+</div>
+
+<style>
+.auth-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+</style>
 
 @code {
-    private LoginModel loginModel = new();
+    // Forms and models
+    private MudForm loginForm;
+    private MudForm registerForm;
+    private LoginDTO LoginModel = new();
+    private RegisterUserDTO RegisterModel = new();
+    private string ConfirmPassword = string.Empty;
 
-    private void HandleLogin()
+    // State
+    private string ErrorMessage = string.Empty;
+    private string RegisterErrorMessage = string.Empty;
+    private string SuccessMessage = string.Empty;
+    private bool isLoading = false;
+    private bool isRegistering = false;
+    private bool showPassword = false;
+    private bool showConfirmPassword = false;
+
+    // Password toggles
+    private InputType PasswordInputType => showPassword ? InputType.Text : InputType.Password;
+    private string PasswordIcon => showPassword ? Icons.Material.Filled.Visibility : Icons.Material.Filled.VisibilityOff;
+    private InputType ConfirmPasswordInputType => showConfirmPassword ? InputType.Text : InputType.Password;
+    private string ConfirmPasswordIcon => showConfirmPassword ? Icons.Material.Filled.Visibility : Icons.Material.Filled.VisibilityOff;
+
+    private void TogglePassword() => showPassword = !showPassword;
+    private void ToggleConfirmPassword() => showConfirmPassword = !showConfirmPassword;
+
+    // Login
+    private async Task OnLoginSubmit()
     {
-        // TODO: Call API or authentication service
-        Console.WriteLine($"Email: {loginModel.Email}, FirstName: {loginModel.FirstName}, LastName: {loginModel.LastName}");
+        ErrorMessage = string.Empty;
+        isLoading = true;
+
+        try
+        {
+            if (string.IsNullOrWhiteSpace(LoginModel.Email) || string.IsNullOrWhiteSpace(LoginModel.Password))
+            {
+                ErrorMessage = "Email and password are required";
+                return;
+            }
+
+            // Simulate login or call actual IdentityService
+            await Task.Delay(500);
+
+            NavigationManager.NavigateTo("/campaigns");
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"Login failed: {ex.Message}";
+        }
+        finally
+        {
+            isLoading = false;
+        }
     }
 
-    public class LoginModel
+    // Registration
+    private async Task OnRegisterSubmit()
     {
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+        RegisterErrorMessage = string.Empty;
+        SuccessMessage = string.Empty;
+        isRegistering = true;
 
-        [Required]
-        [MinLength(10)]
-        public string FirstName { get; set; }
+        try
+        {
+            // Null-safe initialization
+            RegisterModel ??= new RegisterUserDTO();
+            RegisterModel.FirstName ??= string.Empty;
+            RegisterModel.LastName ??= string.Empty;
+            RegisterModel.Email ??= string.Empty;
+            RegisterModel.Password ??= string.Empty;
+            RegisterModel.PhoneNumber ??= string.Empty;
 
-        [Required]
-        [MinLength(10)]
-        public string LastName { get; set; }
-        [Required]
-        [MinLength(6)]
+            // Validate required fields
+            if (string.IsNullOrWhiteSpace(RegisterModel.FirstName) ||
+                string.IsNullOrWhiteSpace(RegisterModel.LastName) ||
+                string.IsNullOrWhiteSpace(RegisterModel.Email) ||
+                string.IsNullOrWhiteSpace(RegisterModel.Password))
+            {
+                RegisterErrorMessage = "All required fields must be filled";
+                return;
+            }
 
-        public string Password { get; set; }
+            if (RegisterModel.Password != ConfirmPassword)
+            {
+                RegisterErrorMessage = "Passwords do not match";
+                return;
+            }
 
-    }     
-     
-    
+            if (RegisterModel.Password.Length < 6)
+            {
+                RegisterErrorMessage = "Password must be at least 6 characters long";
+                return;
+            }
+
+            // Check service is not null
+            if (IdentityService == null)
+            {
+                RegisterErrorMessage = "Registration service is not available.";
+                return;
+            }
+
+            // Call the service
+            await IdentityService.RegisterUser(RegisterModel);
+
+            SuccessMessage = "Account created successfully! You can now login.";
+            RegisterModel = new RegisterUserDTO();
+            ConfirmPassword = string.Empty;
+
+            await Task.Delay(1500);
+            NavigationManager.NavigateTo("/login");
+        }
+        catch (Exception ex)
+        {
+            RegisterErrorMessage = $"Registration failed: {ex.Message}";
+        }
+        finally
+        {
+            isRegistering = false;
+        }
+    }
+
+    // DTOs
+    private class LoginDTO
+    {
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+    }
 }

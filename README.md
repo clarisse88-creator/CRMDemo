@@ -188,3 +188,104 @@ Welcome to your new app.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          @* 
+@page "/Identity"
+
+@using Web.Components.Layout
+@using System.ComponentModel.DataAnnotations
+
+<MudPaper Class="pa-6 mx-auto mt-12" Elevation="6" Style="max-width:400px;">
+    <MudText Typo="Typo.h5" Align="Align.Center" Class="mb-4">
+        Login 
+    </MudText>
+
+    <EditForm Model="@loginModel" OnValidSubmit="HandleLogin">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        
+        <MudTextField @bind-Value="loginModel.FirstName"
+                      Label="First Name"
+                      Variant="Variant.Outlined"
+                      Required="true"
+                      RequiredError="FirstName is required"
+                      For="@(() => loginModel.FirstName)"
+                      Class="mb-3" />
+
+        <MudTextField @bind-Value="loginModel.LastName"
+                      Label="Last Name"
+                      Variant="Variant.Outlined"
+                      Required="true"
+                      RequiredError="LastName is required"
+                      For="@(() => loginModel.LastName)"
+                      Class="mb-3" />
+
+        <MudTextField @bind-Value="loginModel.Email"
+                      Label="Email"
+                      Variant="Variant.Outlined"
+                      Required="true"
+                      RequiredError="Email is required"
+                      For="@(() => loginModel.Email)"
+                      Class="mb-3" />
+
+        
+
+        <MudButton ButtonType="ButtonType.Submit"
+                   Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   FullWidth="true">
+            Login
+        </MudButton>
+    </EditForm>
+    </MudPaper>
+
+
+
+@code {
+    private LoginModel loginModel = new();
+
+    private void HandleLogin()
+    {
+        // TODO: Call API or authentication service
+        Console.WriteLine($"Email: {loginModel.Email}, FirstName: {loginModel.FirstName}, LastName: {loginModel.LastName}");
+    }
+
+    public class LoginModel
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Required]
+        [MinLength(10)]
+        public string FirstName { get; set; }
+
+        [Required]
+        [MinLength(10)]
+        public string LastName { get; set; }
+        [Required]
+        [MinLength(6)]
+
+        public string Password { get; set; }
+
+    }     
+     
+    
+} *@
+
+
+

@@ -5,6 +5,7 @@ using Infrastructure.Data;
 using Application.Interface;
 using Infrastructure.Repositories;
 using Infrastructure.Identity;
+using Application.Services.Users;
 
 namespace Infrastructure.DependencyInjection
 {
@@ -26,6 +27,8 @@ namespace Infrastructure.DependencyInjection
              services.AddScoped<ICampaign, CampaignRepository>();
              services.AddScoped<ITicket, TicketRepository>();
             //  services.AddScoped<IUser, UserRepository>();
+             services.AddScoped<IIdentity, IdentityRepository>();
+             services.AddScoped<IIdentityService, IdentityService>();
 
             return services;
         }

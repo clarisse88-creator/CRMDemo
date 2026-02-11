@@ -23,6 +23,7 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
  builder.Services.AddScoped<ICustomerService, CustomerService>();
  builder.Services.AddScoped<ITicketService, TicketService>();
  builder.Services.AddScoped<ICampaignService, CampaignService>();
+    builder.Services.AddScoped<IIdentityService, IdentityService>();
 
  
 

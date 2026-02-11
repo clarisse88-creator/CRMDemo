@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
+using Infrastructure =Infrastructure.Identity.User;
 
 namespace Infrastructure.Data
 {

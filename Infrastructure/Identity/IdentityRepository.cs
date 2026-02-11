@@ -32,14 +32,23 @@ namespace Infrastructure.Identity
         {
             var newUser = new User()
             {
-              FirstName =dto.FirstName,
-              LastName = dto.LastName,
-              Email =dto.Email,
-              PhoneNumber =dto.PhoneNumber,
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                Email = dto.Email,
+                UserName = dto.Email,  // Use email as username
+                PhoneNumber = dto.PhoneNumber,
+                EmailConfirmed = true,  // Auto-confirm email for demo
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
             };
-
-             await userManager.CreateAsync(newUser,dto.password);
-              
+            
+            var result = await userManager.CreateAsync(newUser, dto.Password);
+            
+            if (!result.Succeeded)
+            {
+                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                throw new Exception($"User registration failed: {errors}");
+            }
         }
     }
 }
