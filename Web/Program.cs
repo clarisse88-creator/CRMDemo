@@ -5,6 +5,7 @@ using Application.Services.Tickets;
 using Application.Services.Campaigns;
 using Infrastructure.DependencyInjection;
 using MudBlazor.Services;
+using Infrastructure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 //regist mudblazor services
@@ -33,6 +34,12 @@ if (!app.Environment.IsDevelopment())
 }
 app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 app.UseHttpsRedirection();
+
+//add Authont
+app.UseAuthentication();
+app.UseAuthorization();
+
+
 
 app.UseAntiforgery();
 

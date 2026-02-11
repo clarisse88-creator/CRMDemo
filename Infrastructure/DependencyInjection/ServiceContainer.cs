@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Infrastructure.Data;
 using Application.Interface;
 using Infrastructure.Repositories;
+using Infrastructure.Identity;
 
 namespace Infrastructure.DependencyInjection
 {
@@ -15,7 +16,12 @@ namespace Infrastructure.DependencyInjection
             services.AddDbContext<ApplicationDbContext>(options =>
              options.UseSqlServer(configuration.GetConnectionString("CRMDemoMSSQLConnection")),ServiceLifetime.Scoped
                 );
+
+            //register identity serevice
+
+                services.AddAuthenticationservice(configuration);
             // Register other infrastructure services here
+
              services.AddScoped<ICustomer, CustomerRepository>();
              services.AddScoped<ICampaign, CampaignRepository>();
              services.AddScoped<ITicket, TicketRepository>();
