@@ -3,12 +3,11 @@ using Application.DTO;
 using Domain.Entities;
 
 
-namespace Application.Interface.Users
+namespace Application.Services.Users
  {
    public interface IIdentityService 
     {
-  public Task RegisterUser (RegisterUserDTO  dto);
-
+         public Task RegisterUser (RegisterUserDTO  dto);
 
     }
 }

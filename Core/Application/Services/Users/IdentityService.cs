@@ -1,7 +1,6 @@
 using Application.Interface;
 using Domain.Entities; 
 using Application.DTO;
-using Application.Interface.Users;
 
 
 namespace Application.Services.Users

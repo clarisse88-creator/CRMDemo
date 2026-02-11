@@ -136,6 +136,55 @@ Welcome to your new app.
    
 
    **********************
+     <div class="container mt-4">
+        <div class="row justify-content-center">
+
+        <EditForm Model="@Model" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary  class="alert alert-danger py-2 mb-3"/>
+<div class="row g-2 mb-2"> 
+       <div class="col-md-6 ">
+            <label for="Name" class="form-label"> Name</label>
+            <InputText id="Name" class="form-control" @bind-Value="Model.Name" placeholder="Enter Name" />
+            <ValidationMessage For="@(() => Model.Name)" class="text-danger"/>
+       </div>
+       <div class="col-md-6 ">
+            <label for="Description" class="form-label"> Description</label>
+            <InputText id="Description" class="form-control" @bind-Value="Model.Description" placeholder="Enter Description" />
+            <ValidationMessage For="@(() => Model.Description)" class="text-danger"/>
+       </div>
+       @* <div class="col-md-6 ">
+            <label for="Type" class="form-label"> Type</label>
+            <InputText id="Type" class="form-control" @bind-Value="Model.Type" placeholder="Enter Type" />
+            <ValidationMessage For="@(() => Model.Type)" class="text-danger"/>
+      
+         *@
+        <div class="col-md-6 ">
+            <label for="Budget" class="form-label"> Budget</label>
+            <InputText id="Budget" class="form-control" @bind-Value="Model.Budget" placeholder="Enter Budget" />
+            <ValidationMessage For="@(() => Model.Budget)" class="text-danger"/>
+       </div>
+        <div class="col-md-6 ">
+            <label for="Status" class="form-label"> Status</label>
+            <InputText id="Status" class="form-control" @bind-Value="Model.Status" placeholder="Enter Status" />
+            <ValidationMessage For="@(() => Model.Status)" class="text-danger"/>
+       </div>
+            <div class="col-md-6 ">
+            <label for="StartDate" class="form-label">StartDate</label>
+            <InputDate id="StartDate" class="form-control" @bind-Value="Model.StartDate" placeholder="Enter StartDate" />
+            <ValidationMessage For="@(() => Model.StartDate)" class="text-danger"/>
+       </div> 
+       <div class="col-md-6 ">
+            <label for="EndDate" class="form-label"> EndDate</label>
+            <InputDate id="EndDate" class="form-control" @bind-Value="Model.EndDate" placeholder="Enter EndDate" />
+            <ValidationMessage For="@(() => Model.EndDate)" class="text-danger"/>
+       </div>   
+            <div>
+            <button type="submit" class="btn btn-primary mt-3">Edit Campaign</button>
+            @* <a href="/Campaigns" class="btn btn-link btn text-muted">Cancel</a> *@
+            <MudButton Href="@string.Format("/Campaigns")" Variant="Variant.Text" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Cancel">Cancel</MudButton>
+            @* <MudButton Type="Submit" Variant="Variant.Filled" OnClick="Campaigns" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Edit">Edit Campaign</MudButton> *@
+          
 
 
 

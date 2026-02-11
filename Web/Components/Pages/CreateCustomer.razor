@@ -23,7 +23,7 @@
     <DataAnnotationsValidator />
     <ValidationSummary  class="alert alert-danger py-2 mb-3"/>
 
-    <div class="row g-2 mb-2"> 
+    @* <div class="row g-2 mb-2"> 
        <div class="col-md-6 ">
             <label for="FirstName" class="form-label"> Name</label>
             <InputText id="FirstName" class="form-control" @bind-Value="Model.Name" placeholder="Enter Name" />
@@ -59,12 +59,47 @@
             <InputText id="CreatedBy" class="form-control" @bind-Value="Model.CreatedBy" placeholder="Enter CreatedBy" />
             <ValidationMessage For="@(() => Model.CreatedBy)" class="text-danger"/>
        </div>
-    <div>
+    <div> *@
+    
+   
+        <MudGrid Spacing="3">
+            <MudItem xs="12" sm="6">
+                <MudTextField @bind-Value="Model.Name" Label="Customer Name" Required="true" Variant="Variant.Filled" />
+            </MudItem>
+
+            <MudItem xs="12" sm="6">
+                <MudTextField @bind-Value="Model.Email" Label="Email" Required="true" Variant="Variant.Filled" />
+            </MudItem>
+
+            <MudItem xs="12" sm="6">
+                <MudTextField @bind-Value="Model.PhoneNumber" Label="Phone Number" Required="true" Variant="Variant.Filled" />
+            </MudItem>
+
+            <MudItem xs="12" sm="6">
+                <MudTextField T="string" Label="Address" @bind-Value="Model.Address" Required="true" Variant="Variant.Filled">
+                </MudTextField>
+            </MudItem>
+
+            <MudItem xs="12" sm="6">
+                <MudTextField T="string" Label="City" @bind-Value="Model.City" Required="true" Variant="Variant.Filled"> 
+                </MudTextField>
+            </MudItem>
+
+            <MudItem xs="12" sm="6">
+                <MudTextField T="string" Label="Type" @bind-Value="Model.Type" Required="true" Variant="Variant.Filled">
+                </MudTextField>
+            </MudItem>
+           
+             <MudItem xs="12" sm="6">
+                <MudTextField T="string" Label="CreatedBy" @bind-Value="Model.CreatedBy" Required="true" Variant="Variant.Filled">
+                </MudTextField>
+             </MudItem>
+                  </MudGrid>
+
        @* <button type="submit" class="btn btn-primary mt-3">Create Customer</button> *@
       <MudButton Href="/Customers" Variant="Variant.Filled" Color="Color.Error">Cancel</MudButton>
        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OnvalidSubmit">Create Customer</MudButton>
-    </div>
-    </div>
+ 
     </EditForm>
     </div>  
     </div>

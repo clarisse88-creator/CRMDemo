@@ -4,8 +4,9 @@ using Application.Services.Customers;
 using Application.Services.Tickets;
 using Application.Services.Campaigns;
 using Infrastructure.DependencyInjection;
-using MudBlazor.Services;
 using Infrastructure.Identity;
+using Application.Services.Users;
+using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 //regist mudblazor services
@@ -22,6 +23,7 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
  builder.Services.AddScoped<ICustomerService, CustomerService>();
  builder.Services.AddScoped<ITicketService, TicketService>();
  builder.Services.AddScoped<ICampaignService, CampaignService>();
+
  
 
 var app = builder.Build();

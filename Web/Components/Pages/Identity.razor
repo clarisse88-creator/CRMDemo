@@ -1,5 +1,7 @@
-@page "/"
+
 @page "/Identity"
+
+@using Web.Components.Layout
 @using System.ComponentModel.DataAnnotations
 
 <MudPaper Class="pa-6 mx-auto mt-12" Elevation="6" Style="max-width:400px;">
@@ -26,15 +28,16 @@
                       RequiredError="LastName is required"
                       For="@(() => loginModel.LastName)"
                       Class="mb-3" />
-
-        <MudTextField @bind-Value="loginModel.Password"
-                      Label="Password"
+                      
+        <MudTextField @bind-Value="loginModel.Email"
+                      Label="Email"
                       Variant="Variant.Outlined"
-                      InputType="InputType.Password"
                       Required="true"
-                      RequiredError="Password is required"
-                      For="@(() => loginModel.Password)"
-                      Class="mb-4" />
+                      RequiredError="Email is required"
+                      For="@(() => loginModel.Email)"
+                      Class="mb-3" />
+
+        
 
         <MudButton ButtonType="ButtonType.Submit"
                    Variant="Variant.Filled"
@@ -43,7 +46,9 @@
             Login
         </MudButton>
     </EditForm>
-</MudPaper>
+    </MudPaper>
+
+
 
 @code {
     private LoginModel loginModel = new();
@@ -51,7 +56,7 @@
     private void HandleLogin()
     {
         // TODO: Call API or authentication service
-        Console.WriteLine($"Email: {loginModel.Email}");
+        Console.WriteLine($"Email: {loginModel.Email}, FirstName: {loginModel.FirstName}, LastName: {loginModel.LastName}");
     }
 
     public class LoginModel
@@ -62,14 +67,17 @@
 
         [Required]
         [MinLength(10)]
-         public string FirstName { get; set; }
+        public string FirstName { get; set; }
 
         [Required]
         [MinLength(10)]
-         public string LastName { get; set; }
+        public string LastName { get; set; }
         [Required]
         [MinLength(6)]
-      
+
         public string Password { get; set; }
-    }
+
+    }     
+     
+    
 }
