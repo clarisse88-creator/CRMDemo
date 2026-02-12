@@ -1,7 +1,9 @@
 ﻿
+@using Application.Services.Campaigns
 @using Domain.Entities
 @using Application.Services.Customers
 @using MudBlazor
+@inject IDialogService DialogService
 @page "/Customers"
 
 @inject ICustomerService CustomerService 
@@ -14,7 +16,9 @@
 @* <a href="/Customers/create" class="btn btn-secondary">Add Customer</a> *@
       @* <MudButton Href="/Customers/create" Variant="Variant.Filled" Color="Color.Primary">Add Customer</MudButton> *@
 <MudSpacer />
- <MudButton Href="/Customers/create" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large">Add New Customer </MudButton>
+<MudButton Color="Color.Primary"
+                   Variant="Variant.Filled"
+                   OnClick="OpenCreateDialog">Add New Customer </MudButton>
 </div>
 <MudContainer MaxWidth="MaxWidth.Large" Class="py-8">
     <MudPaper Elevation="0" Class="mb-6">
@@ -78,6 +82,20 @@
     protected override void OnInitialized()
         {
             customers = CustomerService.GetAllCustomers();
-        }     
+        }  
+        protected IDialogReference dialogReference;
+
+         private async Task OpenCreateDialog()
+    {
+        var parameters = new DialogParameters<CustomerCreateDialog> { };
+        var options = new DialogOptions() { MaxWidth = MaxWidth.Small, FullWidth = true };
+        
+        var dialog = await DialogService.ShowAsync<CustomerCreateDialog>("Create Customer", parameters, options);
+        await dialog.Result;
+
+        // Refresh campaigns list after dialog closes
+        customers = CustomerService.GetAllCustomers();
+        StateHasChanged();
+    }   
     }
   

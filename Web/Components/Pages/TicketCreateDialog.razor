@@ -1,0 +1,76 @@
+
+@using Application.DTO
+@using Application.Services.Tickets
+@using System.ComponentModel.DataAnnotations
+
+@inject ITicketService TicketService
+@inject ISnackbar Snackbar
+
+<PageTitle>Create Customer</PageTitle>
+
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OnValidSubmit">Create Customer</MudButton>
+
+ <MudGrid Spacing="3">
+            <MudItem xs="7" sm="6">
+                <MudTextField @bind-Value="Model.CustomerId" Label="Customer Id" Required="true" Variant="Variant.Filled" />
+            </MudItem>
+
+            <MudItem xs="7" sm="6">
+                <MudTextField @bind-Value="Model.Subject" Label="Subject" Required="true" Variant="Variant.Filled" />
+            </MudItem>
+
+            <MudItem xs="7" sm="6">
+                <MudTextField @bind-Value="Model.Description" Label="Description" Required="true" Variant="Variant.Filled" />
+            </MudItem>
+
+            <MudItem xs="7" sm="6">
+                <MudTextField T="string" Label="Status" @bind-Value="Model.Status" Required="true" Variant="Variant.Filled">
+                </MudTextField>
+            </MudItem>
+
+            <MudItem xs="7" sm="6">
+                <MudTextField T="string" Label="Priority" @bind-Value="Model.Priority" Required="true" Variant="Variant.Filled"> 
+                </MudTextField>
+            </MudItem>
+
+            <MudItem xs="7" sm="6">
+                <MudTextField T="string" Label="Type" @bind-Value="Model.Type" Required="true" Variant="Variant.Filled">
+                </MudTextField>
+            </MudItem>
+           
+                  </MudGrid>
+
+       @* <button type="submit" class="btn btn-primary mt-3">Create Customer</button> *@
+    <MudButton Href="/SupportTicket" Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit">Create Campaign</MudButton>
+      
+      <MudButton Href="/SupportTicket" Variant="Variant.Filled" Color="Color.Error">Cancel</MudButton>
+ 
+    
+
+
+
+@code {
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+
+    private TicketCreateDTO Model { get; set; } = new();
+
+    private async Task OnValidSubmit()
+    {
+        try
+        {
+            TicketService.CreateTicket(Model);
+            Snackbar.Add("Ticket created successfully!", Severity.Success);
+            await OnClose.InvokeAsync();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error creating Ticket: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private async Task Cancel()
+    {
+        await OnClose.InvokeAsync();
+    }
+}

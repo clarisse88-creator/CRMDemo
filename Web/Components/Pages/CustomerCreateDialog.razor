@@ -1,0 +1,81 @@
+
+@using Application.DTO
+@using Application.Services.Customers
+@using System.ComponentModel.DataAnnotations
+@inject ICustomerService CustomerService
+@inject ISnackbar Snackbar
+
+
+<PageTitle>Create Customer</PageTitle>
+
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OnValidSubmit">Create Customer</MudButton>
+
+ <MudGrid Spacing="3">
+    
+            <MudItem xs="4" sm="6">
+                <MudTextField @bind-Value="Model.Name" Label="Customer Name" Required="true" Variant="Variant.Filled" />
+            </MudItem>
+
+            <MudItem xs="7" sm="6">
+                <MudTextField @bind-Value="Model.Email" Label="Email" Required="true" Variant="Variant.Filled" />
+            </MudItem>
+
+            <MudItem xs="7" sm="6">
+                <MudTextField @bind-Value="Model.PhoneNumber" Label="Phone Number" Required="true" Variant="Variant.Filled" />
+            </MudItem>
+
+            <MudItem xs="7" sm="6">
+                <MudTextField T="string" Label="Address" @bind-Value="Model.Address" Required="true" Variant="Variant.Filled">
+                </MudTextField>
+            </MudItem>
+
+            <MudItem xs="7" sm="6">
+                <MudTextField T="string" Label="City" @bind-Value="Model.City" Required="true" Variant="Variant.Filled"> 
+                </MudTextField>
+            </MudItem>
+
+            <MudItem xs="7" sm="6">
+                <MudTextField T="string" Label="Type" @bind-Value="Model.Type" Required="true" Variant="Variant.Filled">
+                </MudTextField>
+            </MudItem>
+           
+             <MudItem xs="7" sm="6">
+                <MudTextField T="string" Label="CreatedBy" @bind-Value="Model.CreatedBy" Required="true" Variant="Variant.Filled">
+                </MudTextField>
+             </MudItem>
+                  </MudGrid>
+
+       @* <button type="submit" class="btn btn-primary mt-3">Create Customer</button> *@
+    <MudButton Href="/Customers" Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit">Create Campaign</MudButton>
+      
+      <MudButton Href="/Customers" Variant="Variant.Filled" Color="Color.Error">Cancel</MudButton>
+ 
+    
+
+
+
+@code {
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+
+    private CustomerCreateDTO Model { get; set; } = new();
+
+    private async Task OnValidSubmit()
+    {
+        try
+        {
+            CustomerService.CreateCustomer(Model);
+            Snackbar.Add("Customer created successfully!", Severity.Success);
+            await OnClose.InvokeAsync();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error creating Customer: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private async Task Cancel()
+    {
+        await OnClose.InvokeAsync();
+    }
+}

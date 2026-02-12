@@ -1,0 +1,84 @@
+
+@using Application.DTO
+@using Application.Services.Users
+@using System.ComponentModel.DataAnnotations
+@inject IIdentityService IdentityService
+@inject ISnackbar Snackbar
+
+<div class="mud-dialog">
+    <div class="mud-dialog-content">
+        <EditForm Model="@Model" OnValidSubmit="@OnValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary class="alert alert-danger py-2 mb-3" />
+
+            <div class="row g-2 mb-2">
+                <div class="col-md-6">
+                    <MudTextField @bind-Value="Model.FirstName" Label="FirstName" Variant="Variant.Outlined" />
+                    <ValidationMessage For="@(() => Model.FirstName)" />
+                </div>
+                <div class="col-md-6">
+                    <MudTextField @bind-Value="Model.LastName" Label="LastName" Variant="Variant.Outlined" />
+                    <ValidationMessage For="@(() => Model.LastName)" />
+                </div>
+            </div>
+
+            <div class="row g-2 mb-2">
+                <div class="col-md-12">
+                    <MudTextField @bind-Value="Model.Email" Label="Email" Variant="Variant.Outlined" Lines="3" />
+                    <ValidationMessage For="@(() => Model.Email)" />
+                </div>
+                <div class="col-md-12">
+                    <MudTextField @bind-Value="Model.PhoneNumber" Label="PhoneNumber" Variant="Variant.Outlined" Lines="3" />
+                    <ValidationMessage For="@(() => Model.PhoneNumber)" />
+                </div>
+            </div>
+
+            <div class="row g-2 mb-2">
+                <div class="col-md-12">
+                    <MudTextField @bind-Value="Model.Password" Label="Password" Variant="Variant.Outlined" />
+                    <ValidationMessage For="@(() => Model.Password)" />
+                </div>
+            </div>
+
+            <div class="row g-2 mb-2">
+                <div class="col-md-6">
+                    <MudTextField @bind-Value="Model.ConfirmPassword" Label="ConfirmPassword" Variant="Variant.Outlined" />
+                </div>
+                <div class="col-md-6">
+                    <MudTextField @bind-Value="Model.EmailConfirmed" Label="EmailConfirmed" Variant="Variant.Outlined" />
+                </div>
+            </div>
+
+            <MudStack Row="true" Spacing="2" Class="d-flex justify-content-end">
+                <MudButton Href="/User" Variant="Variant.Filled" Color="Color.Error">Cancel</MudButton>
+                <MudButton Href="/User" Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit">Create Campaign</MudButton>
+            </MudStack>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+
+    private RegisterUserDTO Model { get; set; } = new();
+
+    private async Task OnValidSubmit()
+    {
+        try
+        {
+            IdentityService.RegisterUser(Model);
+            Snackbar.Add("Register created successfully!", Severity.Success);
+            await OnClose.InvokeAsync();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error creating Register: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private async Task Cancel()
+    {
+        await OnClose.InvokeAsync();
+    }
+}

@@ -7,6 +7,7 @@
 @using Domain.Entities
 @using Application.Services.Tickets
 @inject ITicketService TicketService
+@inject IDialogService DialogService
 
 
 <PageTitle>Ticket</PageTitle>
@@ -15,7 +16,9 @@
   @* <a href="/SupportTicket/create" class="btn btn-secondary ">AddTicket</a> *@
       @* <MudButton Href="/SupportTicket/create" Variant="Variant.Filled" Color="Color.Primary">Add Ticket</MudButton> *@
 <MudSpacer />
- <MudButton Href="/SupportTicket/create"  StartIcon="@Icons.Material.Filled.Add"  Variant="Variant.Filled"  Color="Color.Primary" Size="Size.Large"> Add New Ticket</MudButton>
+<MudButton Color="Color.Primary"
+                   Variant="Variant.Filled"
+                   OnClick="OpenCreateDialog"> Add New Ticket</MudButton>
 
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="py-8">
@@ -142,6 +145,19 @@
      _supportTicket = TicketService.GetAllTickets().ToList();
              
         }
+        protected IDialogReference dialogReference;
+         private async Task OpenCreateDialog()
+    {
+        var parameters = new DialogParameters<CreateCampaignDialog> { };
+        var options = new DialogOptions() { MaxWidth = MaxWidth.Small, FullWidth = true };
+        
+        var dialog = await DialogService.ShowAsync<CustomerCreateDialog>("Create Customer", parameters, options);
+        await dialog.Result;
+
+        // Refresh campaigns list after dialog closes
+        _supportTicket= TicketService.GetAllTickets();
+        StateHasChanged();
+    }   
        
     }
   

@@ -2,6 +2,7 @@
 @using MudBlazor
 @using Domain.Entities
 @using Application.Services.Campaigns
+@inject IDialogService DialogService
 
 
 @inject ICampaignService CampaignService
@@ -17,13 +18,11 @@
         <MudStack Row="true" Spacing="3" AlignItems="AlignItems.Center" Class="p-6">
             <MudText Typo="Typo.h4" GutterBottom="false">Campaign Page</MudText>
             <MudSpacer />
-            <MudButton Href="/Campaigns/create" 
-                       StartIcon="@Icons.Material.Filled.Add" 
-                       Variant="Variant.Filled" 
-                       Color="Color.Primary" 
-                       Size="Size.Large">
-                Add New Campaign
-            </MudButton>
+            <MudButton Color="Color.Primary"
+                   Variant="Variant.Filled"
+                   OnClick="OpenCreateDialog">
+            + New Campaign
+        </MudButton>
         </MudStack>
     </MudPaper>
 
@@ -150,6 +149,7 @@
     {
         campaigns = CampaignService.GetAllCampaigns();
     }  
+    protected IDialogReference dialogReference;
     private Color GetStatusColor(string status)
     {
         return status switch
@@ -161,6 +161,19 @@
             _ => Color.Default
         };
     }
+    private async Task OpenCreateDialog()
+    {
+        var parameters = new DialogParameters<CreateCampaignDialog> { };
+        var options = new DialogOptions() { MaxWidth = MaxWidth.Small, FullWidth = true };
+        
+        var dialog = await DialogService.ShowAsync<CreateCampaignDialog>("Create Campaign", parameters, options);
+        await dialog.Result;
+
+        // Refresh campaigns list after dialog closes
+        campaigns = CampaignService.GetAllCampaigns();
+        StateHasChanged();
+    }
+
    
   
 }
