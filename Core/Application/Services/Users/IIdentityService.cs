@@ -1,13 +1,19 @@
 
 using Application.DTO;
-using Domain.Entities;
+
 
 
 namespace Application.Services.Users
  {
    public interface IIdentityService 
     {
-         public Task RegisterUser (RegisterUserDTO  dto);
+       Task<bool> LoginAsync(LoginDTO dto);
+        Task LogoutAsync();
+        Task RegisterUser (RegisterUserDTO  dto);
+        Task<List<UserDetailDTO>> GetAllUsers();
+        Task<UserDetailDTO?> GetUserById(int id);
+        Task UpdateUser(int id, UpdateUserDTO dto);
+       
 
     }
 }

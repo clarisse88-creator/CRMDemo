@@ -289,3 +289,20 @@ Welcome to your new app.
 
 
 
+
+
+
+
+
+
+void:means 
+async task  =:waiting for any task you want and make other  
+synch:void"means no waiting"
+like sending email 
+
+=== edit and detail Userpage
+=== muddatagrid to all page,
+=== dialogs popup,navigate to other page
+=== message snack bar,  
+=== autho layout main layout same theme  at all page(theme .cs allcolor) and call it to all page
+=== implimentation login page

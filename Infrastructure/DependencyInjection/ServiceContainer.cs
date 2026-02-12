@@ -28,7 +28,7 @@ namespace Infrastructure.DependencyInjection
              services.AddScoped<ITicket, TicketRepository>();
             //  services.AddScoped<IUser, UserRepository>();
              services.AddScoped<IIdentity, IdentityRepository>();
-             services.AddScoped<IIdentityService, IdentityService>();
+           
 
             return services;
         }

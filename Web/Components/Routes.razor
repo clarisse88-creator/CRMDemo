@@ -1,6 +1,47 @@
-﻿<Router AppAssembly="typeof(Program).Assembly" NotFoundPage="typeof(Pages.NotFound)">
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using Web.Components.Pages
+@* @using Microsoft.AspNetCore.Components.Authorization *@
+@* <Router AppAssembly="typeof(Program).Assembly" NotFoundPage="typeof(Pages.NotFound)">
     <Found Context="routeData">
         <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" />
         <FocusOnNavigate RouteData="routeData" Selector="h1" />
     </Found>
-</Router>
+</Router> *@
+<CascadingAuthenticationState>
+    <Router AppAssembly="typeof(Program).Assembly">
+        <Found Context ="routeData">
+            <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)">
+                <NotAuthorized>
+                    @(context.User.Identity?.IsAuthenticated)
+                    {
+                        <RedirectToLogin/>
+                    }
+                    else
+                    {
+                        <MudContainer MaxWidth="MaxWidth.Medium" Class="mt-6">
+                            <MudAlert Severity="Severity.Error">
+                                you are  Not Authorizedto this page
+                            </MudAlert>
+                        </MudContainer>
+                    }
+                    
+                </NotAuthorized>
+                <Authorizing>
+                    <MudContainer MaxWidth="MaxWidth.Medium" Class="m-t6">
+                        <MudProgressLinear Indeterminate="true"/>
+                        <MudText Class="mt-4">Checking Authorized to</MudText>
+                    </MudContainer> 
+                </Authorizing>
+            </AuthorizeRouteView>
+            <FocusOnNavigate RouteData="routeData"Selector="h1"/>
+        </Found>
+        <NotFound>
+            <PageTitle>NotFound</PageTitle>
+            <LayoutView Layout="typeof (Layout.MainLayout)">
+                <MudAlert Severity="Severity.Warning">
+                    sorry ,there's northing at this address.
+                </MudAlert>
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>

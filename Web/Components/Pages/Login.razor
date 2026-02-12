@@ -1,4 +1,5 @@
-@page "/Identity"
+@page "/account/login"
+@layout AuthLayout
 
 @using Web.Components.Layout
 @using System.ComponentModel.DataAnnotations
@@ -12,20 +13,12 @@
         <DataAnnotationsValidator />
         <ValidationSummary />
         
-        <MudTextField @bind-Value="loginModel.FirstName"
-                      Label="First Name"
+        <MudTextField @bind-Value="loginModel.Password"
+                      Label=" Password"
                       Variant="Variant.Outlined"
                       Required="true"
-                      RequiredError="FirstName is required"
-                      For="@(() => loginModel.FirstName)"
-                      Class="mb-3" />
-
-        <MudTextField @bind-Value="loginModel.LastName"
-                      Label="Last Name"
-                      Variant="Variant.Outlined"
-                      Required="true"
-                      RequiredError="LastName is required"
-                      For="@(() => loginModel.LastName)"
+                      RequiredError="Password is required"
+                      For="@(() => loginModel.Password)"
                       Class="mb-3" />
 
         <MudTextField @bind-Value="loginModel.Email"
