@@ -1,0 +1,57 @@
+@page "/Register"
+@using MudBlazor
+@using System.Net.Http.Json
+
+
+<MudContainer MaxWidth="MaxWidth.Small" Class="mt-10">
+    <MudPaper Elevation="4" Class="pa-6">
+
+        <MudText Typo="Typo.h5" Align="Align.Center">Register</MudText>
+
+        <MudForm @ref="_form">
+            <MudTextField Label="Name" @bind-Value="model.Name" Required="true" />
+            <MudTextField Label="Email" @bind-Value="model.Email" Required="true" />
+            <MudTextField Label="Password"
+                          InputType="InputType.Password"
+                          @bind-Value="model.Password"
+                          Required="true" />
+            <MudTextField Label="Confirm Password"
+                          InputType="InputType.Password"
+                          @bind-Value="model.ConfirmPassword"
+                          Required="true" />
+
+            <MudButton Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       Class="mt-4"
+                       FullWidth="true"
+                       OnClick="RegisterUser">
+                Register
+            </MudButton>
+        </MudForm>
+
+        <MudText Align="Align.Center" Class="mt-4">
+            Have an account?
+            <MudLink Href="/Identity">login</MudLink>
+        </MudText>
+
+    </MudPaper>
+</MudContainer>
+
+@code {
+    private MudForm _form;
+
+    private RegisterModel model = new();
+async Task RegisterUser()
+{
+       
+        Console.WriteLine("User Registered");
+    }
+
+    class RegisterModel
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string ConfirmPassword { get; set; }
+    }
+}
