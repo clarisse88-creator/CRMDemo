@@ -46,11 +46,7 @@
 
 @code{
     [CascadingParameter] IMudDialogInstance DialogInstance { get; set; }
-
     private CampaignCreateDTO Model {get;set;} = new ();
-   
-
-
     private void onValidSubmit()
     {
         CampaignService.CreateCampaign(Model);

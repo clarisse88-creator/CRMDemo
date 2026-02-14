@@ -14,64 +14,83 @@
 @* <a href="/Customers/create" class="btn btn-secondary">Add Customer</a> *@
       @* <MudButton Href="/Customers/create" Variant="Variant.Filled" Color="Color.Primary">Add Customer</MudButton> *@
 <MudSpacer />
-<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>OpenDialog())">Add Customer</MudButton>
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>OpenDialog())">+AddCustomer</MudButton>
 
 </div>
 <MudContainer MaxWidth="MaxWidth.Large" Class="py-8">
     <MudPaper Elevation="0" Class="mb-6">
         <MudStack Row="true" Spacing="1" AlignItems="AlignItems.Center" Class="p-6">
-            <MudTable Items="customers" Hover="true" Bordered="true" Striped="true">
-                <HeaderContent>
-                    <MudTh>Id</MudTh>
-                    <MudTh>Name</MudTh>
-                    <MudTh>Email</MudTh>
-                    <MudTh>Address</MudTh>
-                    <MudTh>PhoneNumber</MudTh>
-                    <MudTh>City</MudTh>
-                    <MudTh>Type</MudTh>
-                    <MudTh>Status</MudTh>
-                    <MudTh>CreatedAt</MudTh>
-                    <MudTh>Action</MudTh>
-                </HeaderContent>
-                <RowTemplate>
-                    <MudTd >@context.Id</MudTd>
-                    <MudTd >@context.Name</MudTd>
-                    <MudTd >@context.Email</MudTd>
-                    <MudTd >@context.Address</MudTd>
-                    <MudTd >@context.PhoneNumber</MudTd>
-                    <MudTd >@context.City</MudTd>f
-                    <MudTd >@context.Type</MudTd>
-                    <MudTd >@context.Status</MudTd>
-                    <MudTd >@context.CreatedAt</MudTd>
-                   
-                    
-                   
-                        <MudStack Row="true" Spacing="2" Justify="Justify.Center">
-                            <MudButton Href="@string.Format("/Customers/Edit/{0}", context.Id)" 
-                                       Variant="Variant.Filled" 
-                                       Color="Color.Warning" 
-                                       Size="Size.Small"
-                                       StartIcon="@Icons.Material.Filled.Edit">
-                                Edit
-                            </MudButton>
-                            <MudButton Href="@string.Format("/Customers/{0}", context.Id)" 
-                                       Variant="Variant.Filled" 
-                                       Color="Color.Primary" 
-                                       Size="Size.Small"
-                                       StartIcon="@Icons.Material.Filled.MoreHoriz">
 
-                                View
-                              
-                           </MudButton>
-                        </MudStack>
-                </RowTemplate>
+            <MudDataGrid T="Customer"
+                         Items="@customers"
+                         Hover="true"
+                         Bordered="true"
+                         Striped="true"
+                          Dense="false"
+                         Class="mud-elevation-1"
+                         RowsPerPage="10" >
 
-            </MudTable>
-            
-     </MudStack>
-     </MudPaper>
+                <Columns>
 
+                    <!-- ID -->
+                    <PropertyColumn Property="x => x.Id" Title="Id" Sortable="true" />
+
+                    <!-- NAME -->
+                    <PropertyColumn Property="x => x.Name" Title="Name" Sortable="true" />
+
+                    <!-- EMAIL -->
+                    <PropertyColumn Property="x => x.Email" Title="Email" Sortable="true" />
+
+                    <!-- ADDRESS -->
+                    <PropertyColumn Property="x => x.Address" Title="Address" Sortable="true" />
+
+                    <!-- PHONENUMBER -->
+                    <PropertyColumn Property="x => x.PhoneNumber" Title="PhoneNumber" Sortable="true" />
+
+                    <!-- CITY -->
+                    <PropertyColumn Property="x => x.City" Title="City" Sortable="true" />
+
+                    <!-- TYPE -->
+                    <PropertyColumn Property="x => x.Type" Title="Type" Sortable="true" />
+
+                    <!-- STATUS -->
+                    <PropertyColumn Property="x => x.Status" Title="Status" Sortable="true" />
+
+                    <!-- CREATED AT -->
+                    <PropertyColumn Property="x => x.CreatedAt" Title="CreatedAt" Sortable="true" />
+
+                    <!-- ACTIONS -->
+                    <TemplateColumn Title="Action">
+                        <CellTemplate>
+                            <MudStack Row="true" Spacing="2" Justify="Justify.Center">
+                                <MudButton Href="@string.Format("/Customers/Edit/{0}", context.Item.Id)"
+                                           Variant="Variant.Filled"
+                                           Color="Color.Warning"
+                                           Size="Size.Small"
+                                           StartIcon="@Icons.Material.Filled.Edit">
+                                    Edit
+                                </MudButton>
+
+                                <MudButton Href="@string.Format("/Customers/{0}", context.Item.Id)"
+                                           Variant="Variant.Filled"
+                                           Color="Color.Primary"
+                                           Size="Size.Small"
+                                           StartIcon="@Icons.Material.Filled.MoreHoriz">
+                                    View
+                                </MudButton>
+                            </MudStack>
+                        </CellTemplate>
+                    </TemplateColumn>
+                </Columns>
+                <PagerContent>
+        <MudTablePager PageSizeOptions="new int[]{5,10,20}" />
+    </PagerContent>
+            </MudDataGrid>
+
+        </MudStack>
+    </MudPaper>
 </MudContainer>
+
   
 
 @code {
