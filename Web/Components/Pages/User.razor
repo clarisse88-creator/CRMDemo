@@ -3,10 +3,7 @@
 @using Application.Services.Users
 @using Domain.Entities
 
-@using MudBlazor
 @inject IDialogService DialogService
-
-
 
 @inject IIdentityService IdentityService 
 
@@ -19,7 +16,7 @@
 <MudSpacer />
 <MudButton Color="Color.Primary"
                    Variant="Variant.Filled"
-                   OnClick="OpenCreateDialog">Add New User </MudButton>
+                   OnClick="OpenDialog">Add New User </MudButton>
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="py-8">
     <MudPaper Elevation="0" Class="mb-6">
@@ -80,21 +77,20 @@
         {
             users = await IdentityService.GetAllUsers();
         }  
-         protected IDialogReference dialogReference;
+    protected IDialogReference dialogReference;
 
-         private async Task OpenCreateDialog()
-    {
-        var parameters = new DialogParameters<RegisterCreateDialog> { };
-        var options = new DialogOptions() { MaxWidth = MaxWidth.Small, FullWidth = true };
+        private  async Task OpenDialog()
+        {
+            var dialog = await DialogService.ShowAsync<RegisterCreateDialog>("Register User");
+            var result = await dialog.Result;
+
+            if (result != null && !result.Canceled)
+            {
+                users = await IdentityService.GetAllUsers();
+            }
         
-        var dialog = await DialogService.ShowAsync<RegisterCreateDialog>("Create User", parameters, options);
-        await dialog.Result;
-
-        // Refresh campaigns list after dialog closes
-         users = await IdentityService.GetAllUsers();
-        StateHasChanged();
-    }   
+        }   
     }      
-    }
+    
     
   

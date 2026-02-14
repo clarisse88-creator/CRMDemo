@@ -2,9 +2,55 @@
 @using Application.DTO
 @using Application.Services.Users
 @using System.ComponentModel.DataAnnotations
+@using MudBlazor
+@using MudBlazor.Services
+@using Microsoft.AspNetCore.Components
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@inject NavigationManager Navigation
 @inject IIdentityService IdentityService
 @inject ISnackbar Snackbar
+@inject IDialogService DialogService
 
+
+<MudDialog>
+<DialogContent>
+    <EditForm Model="Model" OnValidSubmit="onValidSubmit">
+        <DataAnnotationsValidator />
+        <MudGrid>
+            <MudItem xs="12">
+                <MudTextField Label="FirstName" @bind-Value="Model.FirstName" For="@(() => Model.FirstName)" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField Label="LastName" @bind-Value="Model.LastName" For="@(() => Model.LastName)" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField Label="Email" @bind-Value="Model.Email" For="@(() => Model.Email)" />
+            </MudItem>
+             <MudItem xs="12">
+                <MudTextField Label="EmailConfirmed" @bind-Value="Model.EmailConfirmed" For="@(() => Model.EmailConfirmed)" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField Label="PhoneNumber" @bind-Value="Model.PhoneNumber" For="@(() => Model.PhoneNumber)" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField Label="Password" @bind-Value="Model.Password" For="@(() => Model.Password)" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField Label="ConfirmPassword" @bind-Value="Model.Password" For="@(() => Model.ConfirmPassword)" />
+            </MudItem>
+           
+            
+            <MudItem xs="12" class="d-flex justify-content-end">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit">Add Campaign</MudButton>
+                <MudButton Href="/User" Variant="Variant.Filled" Color="Color.Error">Cancel</MudButton>
+
+            </MudItem>
+        </MudGrid>
+
+    </EditForm>
+</DialogContent>
+</MudDialog>
+@* 
 <div class="mud-dialog">
     <div class="mud-dialog-content">
         <EditForm Model="@Model" OnValidSubmit="@OnValidSubmit">
@@ -22,12 +68,12 @@
                 </div>
             </div>
 
-            <div class="row g-2 mb-2">
+            <div class="col-md-6">
                 <div class="col-md-12">
                     <MudTextField @bind-Value="Model.Email" Label="Email" Variant="Variant.Outlined" Lines="3" />
                     <ValidationMessage For="@(() => Model.Email)" />
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <MudTextField @bind-Value="Model.PhoneNumber" Label="PhoneNumber" Variant="Variant.Outlined" Lines="3" />
                     <ValidationMessage For="@(() => Model.PhoneNumber)" />
                 </div>
@@ -55,30 +101,19 @@
             </MudStack>
         </EditForm>
     </div>
-</div>
+</div> *@
 
 @code {
-    [Parameter]
-    public EventCallback OnClose { get; set; }
+      [CascadingParameter] IMudDialogInstance DialogInstance { get; set; }
 
-    private RegisterUserDTO Model { get; set; } = new();
+    private RegisterUserDTO Model {get;set;} = new ();
+   
 
-    private async Task OnValidSubmit()
+
+    private void onValidSubmit()
     {
-        try
-        {
-            IdentityService.RegisterUser(Model);
-            Snackbar.Add("Register created successfully!", Severity.Success);
-            await OnClose.InvokeAsync();
-        }
-        catch (Exception ex)
-        {
-            Snackbar.Add($"Error creating Register: {ex.Message}", Severity.Error);
-        }
-    }
-
-    private async Task Cancel()
-    {
-        await OnClose.InvokeAsync();
+        IdentityService.RegisterUser(Model);
+        Snackbar.Add("Campaign created successfully!", Severity.Success);
+        DialogInstance.Close();
     }
 }

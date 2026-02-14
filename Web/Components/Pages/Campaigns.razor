@@ -125,19 +125,17 @@
             _ => Color.Default
         };
     }
- private async Task OpenDialog(Customer? customer = null)
-    {
-        var dialog = await DialogService.ShowAsync<CreateCampaignDialog>("Add Campaign");
-        var result = await dialog.Result;
-        
-        if (result != null && !result.Canceled)
-        {
-            campaigns = CampaignService.GetAllCampaigns();
-        }
-    }
+    private async Task OpenDialog(List<Campaign>? campaigns = null)
+   {
+    var dialog = await DialogService.ShowAsync<CreateCampaignDialog>("Add Campaign");
+    var result = await dialog.Result;
 
-   
-  
+    if (result != null && !result.Canceled)
+    {
+        campaigns = CampaignService.GetAllCampaigns();
+    }
+  }
+
 }
     
 

@@ -2,13 +2,53 @@
 @using Application.DTO
 @using Application.Services.Customers
 @using System.ComponentModel.DataAnnotations
+@using MudBlazor
+@using MudBlazor.Services
+@using Microsoft.AspNetCore.Components
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
 @inject ICustomerService CustomerService
 @inject ISnackbar Snackbar
+@inject IDialogService DialogService
 
+<MudDialog>
+<DialogContent>
+    <EditForm Model="Model" OnValidSubmit="onValidSubmit">
+        <DataAnnotationsValidator />
+        <MudGrid>
+            <MudItem xs="12">
+                <MudTextField Label="Name" @bind-Value="Model.Name" For="@(() => Model.Name)" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField Label="Description" @bind-Value="Model.Email" For="@(() => Model.Email)" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField Label="PhoneNumber" @bind-Value="Model.PhoneNumber" For="@(() => Model.PhoneNumber)" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField Label="Address" @bind-Value="Model.Address" For="@(() => Model.Address)" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField Label="Type" @bind-Value="Model.Type" For="@(() => Model.Type)" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField Label="City" @bind-Value="Model.City" For="@(() => Model.City)" />
+            </MudItem>
+            
+            <MudItem xs="12" class="d-flex justify-content-end">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit">Add Customers</MudButton>
+                <MudButton Href="/Customers" Variant="Variant.Filled" Color="Color.Error">Cancel</MudButton>
 
+            </MudItem>
+        </MudGrid>
+
+    </EditForm>
+</DialogContent>
+</MudDialog>
+
+@* 
 <PageTitle>Create Customer</PageTitle>
 
-<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OnValidSubmit">Create Customer</MudButton>
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="onValidSubmit">Create Customer</MudButton>
 
  <MudGrid Spacing="3">
     
@@ -45,37 +85,28 @@
              </MudItem>
                   </MudGrid>
 
-       @* <button type="submit" class="btn btn-primary mt-3">Create Customer</button> *@
+       <button type="submit" class="btn btn-primary mt-3">Create Customer</button>
     <MudButton Href="/Customers" Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit">Create Campaign</MudButton>
       
       <MudButton Href="/Customers" Variant="Variant.Filled" Color="Color.Error">Cancel</MudButton>
- 
+  *@
     
 
 
 
 @code {
-    [Parameter]
-    public EventCallback OnClose { get; set; }
+    [CascadingParameter] IMudDialogInstance DialogInstance { get; set; }
 
-    private CustomerCreateDTO Model { get; set; } = new();
+    private CustomerCreateDTO Model {get;set;} = new ();
+   
 
-    private async Task OnValidSubmit()
+    private void onValidSubmit()
     {
-        try
-        {
-            CustomerService.CreateCustomer(Model);
-            Snackbar.Add("Customer created successfully!", Severity.Success);
-            await OnClose.InvokeAsync();
-        }
-        catch (Exception ex)
-        {
-            Snackbar.Add($"Error creating Customer: {ex.Message}", Severity.Error);
-        }
+        CustomerService.CreateCustomer(Model);
+        Snackbar.Add("Customer created successfully!", Severity.Success);
+        DialogInstance.Close();
     }
 
-    private async Task Cancel()
-    {
-        await OnClose.InvokeAsync();
     }
-}
+
+   

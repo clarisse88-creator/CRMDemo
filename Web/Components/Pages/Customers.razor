@@ -1,11 +1,9 @@
-﻿
-@using Application.Services.Campaigns
-@using Domain.Entities
+﻿@page "/Customers"
+
 @using Application.Services.Customers
+@using Domain.Entities
 @using MudBlazor
 @inject IDialogService DialogService
-@page "/Customers"
-
 @inject ICustomerService CustomerService 
 
 <PageTitle>Customer</PageTitle>
@@ -16,9 +14,8 @@
 @* <a href="/Customers/create" class="btn btn-secondary">Add Customer</a> *@
       @* <MudButton Href="/Customers/create" Variant="Variant.Filled" Color="Color.Primary">Add Customer</MudButton> *@
 <MudSpacer />
-<MudButton  Color="Color.Primary"
-                   Variant="Variant.Filled"
-                   OnClick="OpenCreateDialog">Add New Customer </MudButton>
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>OpenDialog())">Add Customer</MudButton>
+
 </div>
 <MudContainer MaxWidth="MaxWidth.Large" Class="py-8">
     <MudPaper Elevation="0" Class="mb-6">
@@ -84,18 +81,30 @@
             customers = CustomerService.GetAllCustomers();
         }  
         protected IDialogReference dialogReference;
-
-         private async Task OpenCreateDialog()
+          private Color GetStatusColor(string status)
     {
-        var parameters = new DialogParameters<CustomerCreateDialog> { };
-        var options = new DialogOptions() { MaxWidth = MaxWidth.Small, FullWidth = true };
-        
-        var dialog = await DialogService.ShowAsync<CustomerCreateDialog>("Create Customer", parameters, options);
-        await dialog.Result;
+        return status switch
+        {
+            "Active" => Color.Success,
+            "Completed" => Color.Info,
+            "Pending" => Color.Warning,
+            "Cancelled" => Color.Error,
+            _ => Color.Default
+        };
+    }
 
-        // Refresh campaigns list after dialog closes
+       private async Task OpenDialog()
+    {
+    var dialog = await DialogService.ShowAsync<CustomerCreateDialog>("Add Customer");
+    var result = await dialog.Result;
+
+    if (result != null && !result.Canceled)
+    {
         customers = CustomerService.GetAllCustomers();
-        StateHasChanged();
-    }   
+    }
+       
+    }  
+   
+ 
     }
   

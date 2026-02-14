@@ -80,7 +80,7 @@
         {
      _supportTicket = TicketService.GetAllTickets().ToList();
         }
-       protected IDialogReference dialogReference;
+     protected IDialogReference dialogReference;
     private Color GetStatusColor(string status)
     {
         return status switch
@@ -92,17 +92,16 @@
             _ => Color.Default
         };
     }
- private async Task OpenDialog()
-{
+    private async Task OpenDialog(List<Ticket>? _supportTicket = null)
+   {
     var dialog = await DialogService.ShowAsync<TicketCreateDialog>("Add Ticket");
     var result = await dialog.Result;
 
     if (result != null && !result.Canceled)
     {
-        _supportTicket = TicketService.GetAllTickets().ToList();
-        StateHasChanged();
+        _supportTicket = TicketService.GetAllTickets();
     }
-}
+  }
 }
   
 
