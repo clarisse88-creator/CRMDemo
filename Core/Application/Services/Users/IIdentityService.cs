@@ -11,7 +11,7 @@ namespace Application.Services.Users
         Task LogoutAsync();
         Task RegisterUser (RegisterUserDTO  dto);
         Task<List<UserDetailDTO>> GetAllUsers();
-        Task<UserDetailDTO?> GetUserById(int id);
+        Task<UserDetailDTO> GetUserById(int id);
         Task UpdateUser(int id, UpdateUserDTO dto);
        
 

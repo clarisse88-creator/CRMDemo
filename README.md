@@ -306,3 +306,93 @@ like sending email
 === message snack bar,  
 === autho layout main layout same theme  at all page(theme .cs allcolor) and call it to all page
 === implimentation login page
+
+
+
+@page "/Campaigns/create"
+
+@rendermode InteractiveServer
+
+@using Application.DTO
+@using Application.Services.Campaigns
+@using System.ComponentModel.DataAnnotations
+@inject ICampaignService CampaignService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create Campaigns</PageTitle>
+
+   <h3>Create Campaign</h3>
+     <MudCard>
+@* <MudButton Href="/Campaigns" Variant="Variant.Filled" Color="Color.Secondary">Back to List</MudButton> *@
+  <MudCardHeader Class="d-flex justify-space-between align-center">
+                <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="BackToCampaigns" StartIcon="@Icons.Material.Filled.ArrowBack">
+                    Back to Campaigns
+                </MudButton>
+                <MudText Typo="Typo.h5" Class="ml-auto">Campaign Details</MudText>
+            </MudCardHeader>
+<div class="container mt-4">
+  <div class="row justify-content-center">
+
+<EditForm Model="@Model" OnValidSubmit="OnvalidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary  class="alert alert-danger py-2 mb-3"/>
+
+            <MudGrid Spacing="3">
+           
+            <MudItem xs="12" sm="6">
+                <MudTextField @bind-Value="Model.Name" Label="Name" Required="true" Variant="Variant.Filled" />
+            </MudItem>
+
+            <MudItem xs="12" sm="6">
+                <MudTextField @bind-Value="Model.Description" Label="Description" Required="true" Variant="Variant.Filled" Lines="3" />
+            </MudItem>
+
+            <MudItem xs="12" sm="6">
+                <MudTextField T="string" Label="Type" @bind-Value="Model.Type" Required="true" Variant="Variant.Filled">
+                </MudTextField>
+            </MudItem>
+
+            <MudItem xs="12" sm="6">
+                <MudTextField T="string" Label="Budget" @bind-Value="Model.Budget" Required="true" Variant="Variant.Filled"> 
+                </MudTextField>
+            </MudItem>
+
+            <MudItem xs="12" sm="6">
+                <MudTextField T="string" Label="Status" @bind-Value="Model.Status" Required="true" Variant="Variant.Filled">
+                </MudTextField>
+            </MudItem>
+
+            @* <MudItem xs="12" sm="6">
+                <MudDatePicker @bind-Date="Model.ClosedAt" Label="Closed At" Variant="Variant.Filled" />
+            </MudItem> *@
+        </MudGrid>
+
+        <button type="submit" class="btn btn-primary mt-3">Create Campaign</button>
+
+      <MudButton Href="/Campaigns" Variant="Variant.Filled" Color="Color.Error">Cancel</MudButton>
+       @* <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OnvalidSubmit">Create Campaign</MudButton> *@
+  
+  
+    </EditForm>
+    </div>  
+    </div>
+      </MudCard>
+     
+
+@code{
+    private CampaignCreateDTO Model { get;set; } =new();
+    private void OnvalidSubmit()
+    {
+        CampaignService.CreateCampaign(Model);
+        NavigationManager.NavigateTo("/Campaigns");
+    }
+
+    private void BackToCampaigns()
+    {
+        NavigationManager.NavigateTo("/Campaigns");
+    }
+}
+      
+    
+
+

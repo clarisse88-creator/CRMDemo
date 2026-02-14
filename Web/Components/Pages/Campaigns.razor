@@ -4,7 +4,6 @@
 @using Application.Services.Campaigns
 @inject IDialogService DialogService
 
-
 @inject ICampaignService CampaignService
 
 <PageTitle>Campaign</PageTitle>
@@ -18,11 +17,9 @@
         <MudStack Row="true" Spacing="3" AlignItems="AlignItems.Center" Class="p-6">
             <MudText Typo="Typo.h4" GutterBottom="false">Campaign Page</MudText>
             <MudSpacer />
-            <MudButton Color="Color.Primary"
-                   Variant="Variant.Filled"
-                   OnClick="OpenCreateDialog">
-            + New Campaign
-        </MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>OpenDialog())">Add Customer</MudButton>
+
+        
         </MudStack>
     </MudPaper>
 
@@ -106,40 +103,7 @@
         </MudTable>
     </MudPaper>
 </MudContainer>
-@* <table class="table">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>StartDate</th>
-            <th>EndDate</th>
-            <th>Budget</th>
-            <th>Status</th>
-            <th>Type</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    @foreach (var Campaign in campaigns)
-    {
-        <tr>
-            <td>@Campaign.Id</td>
-            <td>@Campaign.Name</td>
-            <td>@Campaign.Description</td>
-            <td>@Campaign.StartDate</td>
-            <td>@Campaign.EndDate</td>
-            <td>@Campaign.Budget</td>
-            <td>@Campaign.Status</td>
-            <td>@Campaign.Type</td>
-            <td>   
-             <a href="/Campaigns/@Campaign.Id" class="btn btn-primary">Details</a>
-            <a href="/Campaigns/edit/  @Campaign.Id" class="btn btn-primary">Edit</a>
-           
 
-            </td>
-        </tr>
-    }
-    </table> *@
     
 
 @code {
@@ -161,17 +125,15 @@
             _ => Color.Default
         };
     }
-    private async Task OpenCreateDialog()
+ private async Task OpenDialog(Customer? customer = null)
     {
-        var parameters = new DialogParameters<CreateCampaignDialog> { };
-        var options = new DialogOptions() { MaxWidth = MaxWidth.Small, FullWidth = true };
+        var dialog = await DialogService.ShowAsync<CreateCampaignDialog>("Add Campaign");
+        var result = await dialog.Result;
         
-        var dialog = await DialogService.ShowAsync<CreateCampaignDialog>("Create Campaign", parameters, options);
-        await dialog.Result;
-
-        // Refresh campaigns list after dialog closes
-        campaigns = CampaignService.GetAllCampaigns();
-        StateHasChanged();
+        if (result != null && !result.Canceled)
+        {
+            campaigns = CampaignService.GetAllCampaigns();
+        }
     }
 
    

@@ -1,9 +1,7 @@
 ﻿
 @page "/SupportTicket"
-
-
 <h3>Support Ticket</h3>
-
+@using MudBlazor
 @using Domain.Entities
 @using Application.Services.Tickets
 @inject ITicketService TicketService
@@ -16,9 +14,8 @@
   @* <a href="/SupportTicket/create" class="btn btn-secondary ">AddTicket</a> *@
       @* <MudButton Href="/SupportTicket/create" Variant="Variant.Filled" Color="Color.Primary">Add Ticket</MudButton> *@
 <MudSpacer />
-<MudButton Color="Color.Primary"
-                   Variant="Variant.Filled"
-                   OnClick="OpenCreateDialog"> Add New Ticket</MudButton>
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>OpenDialog())">Add Customer</MudButton>
+
 
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="py-8">
@@ -71,71 +68,10 @@
                 </RowTemplate>
 
             </MudTable>
- @* <table class="table">
-        <thead>
-            <tr>
-            <th>Id</th>
-            <th>CustomerId</th>
-            <th>Subject</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>CreatedAt</th>
-            <th>CreatedBy</th>
-            <th>Priority</th>
-            <th>Type</th>
-            <th>ClosedAt</th>
-            <th>Action</th>
-            </tr>
-        </thead>
-    @foreach (var Ticket in _supportTicket)
-
-    {
-          <tr>
-            <td>@Ticket.Id</td>
-            <td>@Ticket.CustomerId</td>
-            <td>@Ticket.Subject</td>
-            <td>@Ticket.Description</td>
-            <td>@Ticket.Status</td>
-            <td>@Ticket.CreatedAt</td>
-            <td>@Ticket.CreatedBy</td>
-            <td>@Ticket.Priority</td>
-            <td>@Ticket.Type</td>
-            <td>@Ticket.closedAt</td> *@
-          
-                  @* <a href="/SupportTicket/@Ticket.Id" class="btn btn-primary">Details</a>
-                  <a href="/SupportTicket/Edit/@Ticket.Id" class="btn btn-primary">Edit</a> *@
-                  @* <MudTd DataLabel="Actions" Style="text-align:center">
-                    <MudStack Row="true" Spacing="2" Justify="Justify.Center">
-             <MudButton Href="@string.Format("/SupportTicket/Edit/{0}", Ticket.Id)" 
-                                   Variant="Variant.Filled" 
-                                   Color="Color.Warning" 
-                                   Size="Size.Small"
-                                   StartIcon="@Icons.Material.Filled.Edit">
-                            Edit
-                        </MudButton>
-             <MudButton Href="@string.Format("/SupportTicket/{0}", Ticket.Id)" 
-                                   Variant="Variant.Filled" 
-                                   Color="Color.Primary" 
-                                   Size="Size.Small"
-                                   StartIcon="@Icons.Material.Filled.MoreHoriz">
-                            View
-                        </MudButton>
-                       </MudStack>
-                </MudTd>
-            </td>
-             </tr>
-    }
-    </table>
-     </MudStack>
-     </MudPaper> *@
-     
-  
      </MudStack>
      </MudPaper>
 
 </MudContainer>
-
-
 
 @code {
 
@@ -143,23 +79,31 @@
      protected override void OnInitialized()
         {
      _supportTicket = TicketService.GetAllTickets().ToList();
-             
         }
-        protected IDialogReference dialogReference;
-         private async Task OpenCreateDialog()
+       protected IDialogReference dialogReference;
+    private Color GetStatusColor(string status)
     {
-        var parameters = new DialogParameters<CreateCampaignDialog> { };
-        var options = new DialogOptions() { MaxWidth = MaxWidth.Small, FullWidth = true };
-        
-        var dialog = await DialogService.ShowAsync<CustomerCreateDialog>("Create Customer", parameters, options);
-        await dialog.Result;
-
-        // Refresh campaigns list after dialog closes
-        _supportTicket= TicketService.GetAllTickets();
-        StateHasChanged();
-    }   
-       
+        return status switch
+        {
+            "Active" => Color.Success,
+            "Completed" => Color.Info,
+            "Pending" => Color.Warning,
+            "Cancelled" => Color.Error,
+            _ => Color.Default
+        };
     }
+ private async Task OpenDialog()
+{
+    var dialog = await DialogService.ShowAsync<TicketCreateDialog>("Add Ticket");
+    var result = await dialog.Result;
+
+    if (result != null && !result.Canceled)
+    {
+        _supportTicket = TicketService.GetAllTickets().ToList();
+        StateHasChanged();
+    }
+}
+}
   
 
    

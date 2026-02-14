@@ -208,9 +208,6 @@ C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\rjsmcshtml.dswa.cache.jso
 C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\scopedcss\Components\Layout\MainLayout.razor.rz.scp.css
 C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\scopedcss\Components\Layout\NavMenu.razor.rz.scp.css
 C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\scopedcss\Components\Layout\ReconnectModal.razor.rz.scp.css
-C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\scopedcss\Components\Pages\Layout\MainLayout.razor.rz.scp.css
-C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\scopedcss\Components\Pages\Layout\NavMenu.razor.rz.scp.css
-C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\scopedcss\Components\Pages\Layout\ReconnectModal.razor.rz.scp.css
 C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\scopedcss\bundle\Web.styles.css
 C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\scopedcss\projectbundle\Web.bundle.scp.css
 C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\compressed\xkavssdyau-{0}-khy4lop6wu-khy4lop6wu.gz
@@ -259,11 +256,8 @@ C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\compressed\ujgrw219mk-{0}
 C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\compressed\prox3i9mme-{0}-63fj8s7r0e-63fj8s7r0e.gz
 C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\compressed\uxr18qbbpx-{0}-0j3bgjxly4-0j3bgjxly4.gz
 C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\compressed\wn7tfq2zxw-{0}-abdmv1u4y3-abdmv1u4y3.gz
-C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\compressed\a1416zexvd-{0}-abdmv1u4y3-abdmv1u4y3.gz
 C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\compressed\dvmvd6hs63-{0}-2i0r6wwb69-2i0r6wwb69.gz
 C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\compressed\9dvhe18ksu-{0}-iz83ucvm53-iz83ucvm53.gz
-C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\compressed\w0u4xjpyxz-{0}-f4wjo5t537-f4wjo5t537.gz
-C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\compressed\k89rhi3gy1-{0}-f4wjo5t537-f4wjo5t537.gz
 C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\staticwebassets.build.json
 C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\staticwebassets.build.json.cache
 C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\staticwebassets.development.json
@@ -283,3 +277,5 @@ C:\Users\HP\source\repos\CRMDemo\Web\bin\Debug\net10.0\Microsoft.AspNet.Identity
 C:\Users\HP\source\repos\CRMDemo\Web\bin\Debug\net10.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 C:\Users\HP\source\repos\CRMDemo\Web\bin\Debug\net10.0\Microsoft.AspNetCore.Identity.UI.dll
 C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\Web.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\compressed\w0u4xjpyxz-{0}-3jk44lf6ll-3jk44lf6ll.gz
+C:\Users\HP\source\repos\CRMDemo\Web\obj\Debug\net10.0\compressed\k89rhi3gy1-{0}-3jk44lf6ll-3jk44lf6ll.gz

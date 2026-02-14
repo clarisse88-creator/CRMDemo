@@ -1,91 +1,59 @@
-
-@using Application.Services.Campaigns
-@using Application.DTO
+@using  Application.DTO
 @using System.ComponentModel.DataAnnotations
+@using Domain.Entities
+@using Application.Services.Campaigns
+@using MudBlazor
+@using MudBlazor.Services
+@using Microsoft.AspNetCore.Components
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@inject NavigationManager Navigation
 @inject ICampaignService CampaignService
 @inject ISnackbar Snackbar
+@inject IDialogService DialogService
 
-<div class="mud-dialog">
-    <div class="mud-dialog-content">
-        <EditForm Model="@Model" OnValidSubmit="@OnValidSubmit">
-            <DataAnnotationsValidator />
-            <ValidationSummary class="alert alert-danger py-2 mb-3" />
 
-            <div class="row g-2 mb-2">
-                <div class="col-md-6">
-                    <MudTextField @bind-Value="Model.Name" Label="Name" Variant="Variant.Outlined" />
-                    <ValidationMessage For="@(() => Model.Name)" />
-                </div>
-                <div class="col-md-6">
-                    <MudTextField @bind-Value="Model.Type" Label="Type" Variant="Variant.Outlined" />
-                    <ValidationMessage For="@(() => Model.Type)" />
-                </div>
-            </div>
+<MudDialog>
+<DialogContent>
+    <EditForm Model="Model" OnValidSubmit="onValidSubmit">
+        <DataAnnotationsValidator />
+        <MudGrid>
+            <MudItem xs="12">
+                <MudTextField Label="Name" @bind-Value="Model.Name" For="@(() => Model.Name)" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField Label="Description" @bind-Value="Model.Description" For="@(() => Model.Description)" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField Label="Type" @bind-Value="Model.Type" For="@(() => Model.Type)" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField Label="Budget" @bind-Value="Model.Budget" For="@(() => Model.Budget)" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField Label="Status" @bind-Value="Model.Status" For="@(() => Model.Status)" />
+            </MudItem>
+            
+            <MudItem xs="12" class="d-flex justify-content-end">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit">Add Campaign</MudButton>
+            </MudItem>
+        </MudGrid>
 
-            <div class="row g-2 mb-2">
-                <div class="col-md-12">
-                    <MudTextField @bind-Value="Model.Name" Label="Name" Variant="Variant.Outlined" Lines="3" />
-                    <ValidationMessage For="@(() => Model.Name)" />
-                </div>
-                <div class="col-md-12">
-                    <MudTextField @bind-Value="Model.Description" Label="Description" Variant="Variant.Outlined" Lines="3" />
-                    <ValidationMessage For="@(() => Model.Description)" />
-                </div>
-            </div>
+    </EditForm>
+</DialogContent>
+</MudDialog>
 
-            <div class="row g-2 mb-2">
-                <div class="col-md-12">
-                    <MudTextField @bind-Value="Model.Description" Label="Goal" Variant="Variant.Outlined" />
-                    <ValidationMessage For="@(() => Model.Description)" />
-                </div>
-            </div>
+@code{
+    [CascadingParameter] IMudDialogInstance DialogInstance { get; set; }
 
-            <div class="row g-2 mb-2">
-                <div class="col-md-6">
-                    <MudDatePicker @bind-Value="Model.Type" Label="Start Date" Variant="Variant.Outlined" />
-                </div>
-                <div class="col-md-6">
-                    <MudDatePicker @bind-Value="Model.Budget" Label="End Date" Variant="Variant.Outlined" />
-                </div>
-            </div>
+    private CampaignCreateDTO Model {get;set;} = new ();
+   
 
-            <div class="row g-2 mb-3">
-                <div class="col-md-12">
-                    <MudTextField @bind-Value="Model.Status" Label="Status" Variant="Variant.Outlined" />
-                    <ValidationMessage For="@(() => Model.Status)" />
-                </div>
-            </div>
 
-            <MudStack Row="true" Spacing="2" Class="d-flex justify-content-end">
-                <MudButton Href="/Campaigns" Variant="Variant.Filled" Color="Color.Error">Cancel</MudButton>
-                <MudButton Href="/Campaigns" Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit">Create Campaign</MudButton>
-            </MudStack>
-        </EditForm>
-    </div>
-</div>
-
-@code {
-    [Parameter]
-    public EventCallback OnClose { get; set; }
-
-    private CampaignCreateDTO Model { get; set; } = new();
-
-    private async Task OnValidSubmit()
+    private void onValidSubmit()
     {
-        try
-        {
-            CampaignService.CreateCampaign(Model);
-            Snackbar.Add("Campaign created successfully!", Severity.Success);
-            await OnClose.InvokeAsync();
-        }
-        catch (Exception ex)
-        {
-            Snackbar.Add($"Error creating campaign: {ex.Message}", Severity.Error);
-        }
+        CampaignService.CreateCampaign(Model);
+        Snackbar.Add("Campaign created successfully!", Severity.Success);
+        DialogInstance.Close();
     }
 
-    private async Task Cancel()
-    {
-        await OnClose.InvokeAsync();
-    }
 }

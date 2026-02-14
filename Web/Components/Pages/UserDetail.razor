@@ -1,0 +1,92 @@
+@* @page "/User/{Id:int}"
+@using Application.DTO
+@using Application.Services.Users
+@using Domain.Entities
+
+@using MudBlazor
+@inject IDialogService DialogService
+@inject NavigationManager Navigation
+
+
+
+@inject IIdentityService IdentityService 
+
+<PageTitle>User Details</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Medium" Class="py-8">
+    @if (users != null)
+    {
+        <MudCard>
+            <MudCardHeader Class="d-flex justify-space-between align-center">
+                <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="BackToCampaigns" StartIcon="@Icons.Material.Filled.ArrowBack">
+                    Back to Campaigns
+                </MudButton>
+                <MudText Typo="Typo.h5" Class="ml-auto">Campaign Details</MudText>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudGrid Spacing="2">
+                    <MudItem xs="12" sm="6">
+                        <MudTextField Label="Campaign ID" Value="@users.Id()" ReadOnly="true" Variant="Variant.Outlined" />
+                    </MudItem>
+
+                    <MudItem xs="12" sm="6">
+                        <MudTextField Label="FirstName" Value="@users.FirstName" ReadOnly="true" Variant="Variant.Outlined" />
+                    </MudItem>
+
+                    <MudItem xs="12">
+                        <MudTextField Label="LastName" Value="@users.LastName" ReadOnly="true" Variant="Variant.Outlined" Lines="3" />
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudTextField Label="Email" Value="@users.Email" ReadOnly="true" Variant="Variant.Outlined" Lines="3" />
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudTextField Label="PhoneNumber" Value="@users.PhoneNumber" ReadOnly="true" Variant="Variant.Outlined" Lines="3" />
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudTextField Label="CreatedAt" Value="@users.CreatedAt" ReadOnly="true" Variant="Variant.Outlined" Lines="3" />
+                    </MudItem>
+
+                    <MudItem xs="12" sm="6">
+                    </MudItem>
+                </MudGrid>
+            </MudCardContent>
+        </MudCard>
+    }
+    else
+    {
+        <MudAlert Severity="Severity.Warning">Campaign not found.</MudAlert>
+    }
+</MudContainer>
+
+@code {
+    //this  is for details of campaign on clicked Id 
+    [Parameter]
+    public int Id { get; set; }
+    
+    private User users;
+    protected override void OnInitialized()
+    {
+        users = await IdentityService.GetUserById(Id);
+    }
+
+    private void BackToCampaigns()
+    {
+        NavigationManager.NavigateTo("/User");
+    }
+///format date and budget
+
+//
+    
+//status color
+    private Color GetStatusColor(string status)
+    {
+        return status?.ToLower() switch
+        {
+            "active" => Color.Success,
+            "inactive" => Color.Default,
+            "completed" => Color.Info,
+            "pending" => Color.Warning,
+            _ => Color.Default
+        };
+    }
+} *@
