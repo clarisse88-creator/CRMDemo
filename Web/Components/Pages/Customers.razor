@@ -20,7 +20,7 @@
 <MudContainer MaxWidth="MaxWidth.Large" Class="py-8">
     <MudPaper Elevation="0" Class="mb-6">
         <MudStack Row="true" Spacing="1" AlignItems="AlignItems.Center" Class="p-6">
-
+  <MudPaper Elevation="1">
             <MudDataGrid T="Customer"
                          Items="@customers"
                          Hover="true"
@@ -85,11 +85,11 @@
                 <PagerContent>
         <MudTablePager PageSizeOptions="new int[]{5,10,20}" />
     </PagerContent>
-            </MudDataGrid>
-
-        </MudStack>
+    </MudDataGrid>
     </MudPaper>
-</MudContainer>
+    </MudStack>
+    </MudPaper>
+  </MudContainer>
 
   
 

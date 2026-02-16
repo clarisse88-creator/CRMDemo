@@ -20,59 +20,73 @@
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="py-8">
     <MudPaper Elevation="0" Class="mb-6">
-        
         <MudStack Row="true" Spacing="3" AlignItems="AlignItems.Center" Class="p-6">
-            <MudTable Items="_supportTicket" Hover="true" Bordered="true" Striped="true">
-                
-                <HeaderContent>
-                    <MudTh>Id</MudTh>
-                    <MudTh>CustomerId</MudTh>
-                    <MudTh>Subject</MudTh>
-                    <MudTh>Description</MudTh>
-                    <MudTh>Status</MudTh>
-                    <MudTh>CreatedAt</MudTh>
-                    <MudTh>CreatedBy</MudTh>
-                    <MudTh>Priority</MudTh>
-                    <MudTh>Type</MudTh>
-                    <MudTh>ClosedAt</MudTh>
-                    <MudTh>Action</MudTh>
-                </HeaderContent>
-                <RowTemplate>
-                    <MudTd DataLabel="Id">@context.Id</MudTd>
-                    <MudTd >@context.CustomerId</MudTd>
-                    <MudTd >@context.Subject</MudTd>
-                    <MudTd >@context.Description</MudTd>
-                    <MudTd >@context.Status</MudTd>
-                    <MudTd >@context.CreatedAt</MudTd>
-                    
-                    <MudTd >@context.Priority</MudTd>
-                    <MudTd >@context.Type</MudTd>
-                    <MudTd >@context.closedAt</MudTd>
-                    <MudTd Style="text-align:center"> </MudTd>
-                        <MudStack Row="true" Spacing="2" Justify="Justify.Center">
-                            <MudButton Href="@string.Format("/SupportTicket/Edit/{0}", context.Id)" 
-                                       Variant="Variant.Filled" 
-                                       Color="Color.Warning" 
-                                       Size="Size.Small"
-                                       StartIcon="@Icons.Material.Filled.Edit">
-                                Edit
-                            </MudButton>
-                            <MudButton Href="@string.Format("/SupportTicket/{0}", context.Id)" 
-                                       Variant="Variant.Filled" 
-                                       Color="Color.Primary" 
-                                       Size="Size.Small"
-                                       StartIcon="@Icons.Material.Filled.MoreHoriz">
-                                View
-                            </MudButton>
-                        </MudStack>               
-                </RowTemplate>
+
+            <MudDataGrid T="Ticket"
+                         Items="_supportTicket"
+                         Hover="true"
+                         Bordered="true"
+                         Striped="true">
+
+                <Columns>
+                    <PropertyColumn Property="x => x.Id" Title="Id" />
+                    <PropertyColumn Property="x => x.CustomerId" Title="CustomerId" />
+                    <PropertyColumn Property="x => x.Subject" Title="Subject" />
+                    <PropertyColumn Property="x => x.Description" Title="Description" />
+                     <TemplateColumn Title="Status">
+                     <CellTemplate Context="context">
+                     <MudChip T="string"
+                     Color="@GetStatusColor(context.Item.Status)"
+                     Text="@context.Item.Status"
+                     Icon="@Icons.Material.Filled.Done" />
+                     </CellTemplate>
+                  </TemplateColumn>
+                    <PropertyColumn Property="x => x.CreatedAt" Title="CreatedAt" />
+                    <PropertyColumn Property="x => x.Priority" Title="Priority" />
+                    <TemplateColumn Title="Type">
+    <CellTemplate Context="context">
+        <MudChip T="string"
+                 Color="@GetTypeColor(context.Item.Type)"
+                 Text="@context.Item.Type"
+                 Icon="@Icons.Material.Filled.Label" />
+    </CellTemplate>
+</TemplateColumn>
+
+                     <TemplateColumn Title="Action">
+                        <CellTemplate>
+                            <MudStack Row="true" Spacing="2" Justify="Justify.Center">
+                                <MudButton Href="@string.Format("/SupportTicket/Edit/{0}", context.Item.Id)"
+                                           Variant="Variant.Filled"
+                                           Color="Color.Warning"
+                                           Size="Size.Small"
+                                           StartIcon="@Icons.Material.Filled.Edit">
+                                    Edit
+                                </MudButton>
+
+                                <MudButton Href="@string.Format("/SupportTicket/{0}", context.Item.Id)"
+                                           Variant="Variant.Filled"
+                                           Color="Color.Primary"
+                                           Size="Size.Small"
+                                           StartIcon="@Icons.Material.Filled.MoreHoriz">
+                                    View
+                                </MudButton>
+                            </MudStack>
+                        </CellTemplate>
+                    </TemplateColumn>
+                </Columns>
+
                 <PagerContent>
+                    <MudDataGridPager PageSizeOptions="new int[] {5,10,20}" />
+                </PagerContent>
+  <PagerContent>
         <MudTablePager PageSizeOptions="new int[]{5,10,20}" />
     </PagerContent>
-    </MudTable>
-     </MudStack> 
-</MudPaper>
+            </MudDataGrid>
+
+        </MudStack>
+    </MudPaper>
 </MudContainer>
+
 
 @code {
 
@@ -88,11 +102,21 @@
         {
             "Active" => Color.Success,
             "Completed" => Color.Info,
-            "Pending" => Color.Warning,
+            "Correct" => Color.Secondary,
             "Cancelled" => Color.Error,
             _ => Color.Default
         };
     }
+    private Color GetTypeColor(string type)
+{
+    return type switch
+    {
+        "Bug" => Color.Error,
+        "Feature" => Color.Primary,
+        "Support" => Color.Info,
+        _ => Color.Default
+    };
+}
     private async Task OpenDialog(List<Ticket>? _supportTicket = null)
    {
     var dialog = await DialogService.ShowAsync<TicketCreateDialog>("Add Ticket");
