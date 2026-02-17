@@ -16,6 +16,8 @@ var builder = WebApplication.CreateBuilder(args);
  builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+//add controllers for login
+builder.Services.AddControllers();
     // Infrastructure Services
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
@@ -23,7 +25,8 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
  builder.Services.AddScoped<ICustomerService, CustomerService>();
  builder.Services.AddScoped<ITicketService, TicketService>();
  builder.Services.AddScoped<ICampaignService, CampaignService>();
-    builder.Services.AddScoped<IIdentityService, IdentityService>();
+ builder.Services.AddScoped<IIdentityService, IdentityService>();
+
 
  
 
@@ -43,8 +46,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 
-
 app.UseAntiforgery();
+app.MapControllers();
+
+
 
 app.MapStaticAssets(); // Map static assets from wwwroot and _content folders
 app.MapRazorComponents<App>()
