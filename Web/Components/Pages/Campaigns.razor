@@ -2,6 +2,8 @@
 @using MudBlazor
 @using Domain.Entities
 @using Application.Services.Campaigns
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 @inject IDialogService DialogService
 @inject ICampaignService CampaignService
 

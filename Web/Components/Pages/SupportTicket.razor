@@ -4,6 +4,8 @@
 @using MudBlazor
 @using Domain.Entities
 @using Application.Services.Tickets
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 
 @inject ITicketService TicketService
 @inject IDialogService DialogService

@@ -2,7 +2,8 @@
 
 @using Domain.Entities
 @using Application.Services.Customers
-
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 
 @inject ICustomerService CustomerService 
 

@@ -6,6 +6,8 @@
 @using MudBlazor.Services
 @using Microsoft.AspNetCore.Components
 @using Microsoft.EntityFrameworkCore.Metadata.Internal
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 @inject NavigationManager Navigation
 @inject ICampaignService CampaignService
 @inject ISnackbar Snackbar

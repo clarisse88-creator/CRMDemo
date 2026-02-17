@@ -65,10 +65,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDcmVhdGVDdXN0b21lci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/source/repos/CRMDemo/Web/Components/Pages/CreateIdentity.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDcmVhdGVJZGVudGl0eS5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/HP/source/repos/CRMDemo/Web/Components/Pages/CreateTicket.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDcmVhdGVUaWNrZXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
