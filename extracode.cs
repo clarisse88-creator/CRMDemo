@@ -7,7 +7,7 @@
 //                 <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>OpenDialog())">Add Customer</MudButton>
 
         
-//         </MudStack>
+//         </MudStack>    
 //     </MudPaper>
 
 //     <MudPaper Elevation="1">
