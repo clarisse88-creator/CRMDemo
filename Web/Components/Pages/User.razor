@@ -7,7 +7,7 @@
 
 @inject IIdentityService IdentityService 
 
-<PageTitle>User</PageTitle>
+<PageTitle>Users</PageTitle>
 
 <h3>Welcome to Users page</h3>
 
@@ -50,7 +50,7 @@
                                        StartIcon="@Icons.Material.Filled.Edit">
                                 Edit
                             </MudButton>
-                            <MudButton Href="@string.Format("/User/{0}", context.Id)" 
+                            <MudButton Href="@string.Format("/UserDetail/{0}", context.Id)" 
                                        Variant="Variant.Filled" 
                                        Color="Color.Primary" 
                                        Size="Size.Small"

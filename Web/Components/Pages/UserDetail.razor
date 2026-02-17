@@ -1,52 +1,76 @@
-@* @page "/User/{Id:int}"
-@using Application.DTO
-@using Application.Services.Users
-@using Domain.Entities
+@page "/UserDetail/{id:int}"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 
-@using MudBlazor
-@inject IDialogService DialogService
+@using Application.Services.Users
+@using Application.DTO
+@inject IIdentityService IdentityService
 @inject NavigationManager Navigation
 
+<PageTitle>User Detail</PageTitle>
 
+<MudContainer MaxWidth="MaxWidth.Medium" Class="mt-6">
+    <MudButton Color="Color.Default" 
+               Variant="Variant.Text" 
+               StartIcon="@Icons.Material.Filled.ArrowBack"
+               OnClick="@(() => Navigation.NavigateTo("/User"))" 
+               Class="mb-4">
+        Back to Users 
+    </MudButton>
 
-@inject IIdentityService IdentityService 
-
-<PageTitle>User Details</PageTitle>
-
-<MudContainer MaxWidth="MaxWidth.Medium" Class="py-8">
     @if (users != null)
     {
         <MudCard>
-            <MudCardHeader Class="d-flex justify-space-between align-center">
-                <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="BackToCampaigns" StartIcon="@Icons.Material.Filled.ArrowBack">
-                    Back to Campaigns
-                </MudButton>
-                <MudText Typo="Typo.h5" Class="ml-auto">Campaign Details</MudText>
-            </MudCardHeader>
             <MudCardContent>
-                <MudGrid Spacing="2">
+                <MudText Typo="Typo.h5" Class="mb-4">User Details</MudText>
+                
+                <MudGrid Spacing="3">
                     <MudItem xs="12" sm="6">
-                        <MudTextField Label="Campaign ID" Value="@users.Id()" ReadOnly="true" Variant="Variant.Outlined" />
+                        <MudText Typo="Typo.body2" Color="Color.Default" Class="mb-1" Style="opacity: 0.6;">First Name</MudText>
+                        <MudText Typo="Typo.body1">@users.FirstName</MudText>
                     </MudItem>
-
+                    
                     <MudItem xs="12" sm="6">
-                        <MudTextField Label="FirstName" Value="@users.FirstName" ReadOnly="true" Variant="Variant.Outlined" />
+                        <MudText Typo="Typo.body2" Color="Color.Default" Class="mb-1" Style="opacity: 0.6;">Last Name</MudText>
+                        <MudText Typo="Typo.body1">@users.LastName</MudText>
                     </MudItem>
-
-                    <MudItem xs="12">
-                        <MudTextField Label="LastName" Value="@users.LastName" ReadOnly="true" Variant="Variant.Outlined" Lines="3" />
-                    </MudItem>
-                    <MudItem xs="12">
-                        <MudTextField Label="Email" Value="@users.Email" ReadOnly="true" Variant="Variant.Outlined" Lines="3" />
-                    </MudItem>
-                    <MudItem xs="12">
-                        <MudTextField Label="PhoneNumber" Value="@users.PhoneNumber" ReadOnly="true" Variant="Variant.Outlined" Lines="3" />
-                    </MudItem>
-                    <MudItem xs="12">
-                        <MudTextField Label="CreatedAt" Value="@users.CreatedAt" ReadOnly="true" Variant="Variant.Outlined" Lines="3" />
-                    </MudItem>
-
+                    
                     <MudItem xs="12" sm="6">
+                        <MudText Typo="Typo.body2" Color="Color.Default" Class="mb-1" Style="opacity: 0.6;">Email</MudText>
+                        <MudText Typo="Typo.body1">@users.Email</MudText>
+                    </MudItem>
+                    
+                    <MudItem xs="12" sm="6">
+                        <MudText Typo="Typo.body2" Color="Color.Default" Class="mb-1" Style="opacity: 0.6;">Phone Number</MudText>
+                        <MudText Typo="Typo.body1">@(users.PhoneNumber ?? "N/A")</MudText>
+                    </MudItem>
+                    
+                    <MudItem xs="12">
+                        <MudDivider Class="my-3" />
+                    </MudItem>
+                    
+                    <MudItem xs="12" sm="6">
+                        <MudText Typo="Typo.body2" Color="Color.Default" Class="mb-1" Style="opacity: 0.6;">Email Confirmed</MudText>
+                        <MudChip T="string" 
+                                Color="@(users.EmailConfirmed ? Color.Success : Color.Warning)" 
+                                Size="Size.Small" 
+                                Variant="Variant.Filled">
+                            @(users.EmailConfirmed ? "Confirmed" : "Pending Confirmation")
+                        </MudChip>
+                    </MudItem>
+                    
+                    <MudItem xs="12">
+                        <MudDivider Class="my-3" />
+                    </MudItem>
+                    
+                    <MudItem xs="12" sm="6">
+                        <MudText Typo="Typo.body2" Color="Color.Default" Class="mb-1" Style="opacity: 0.6;">Created At</MudText>
+                        <MudText Typo="Typo.body1">@users.CreatedAt.ToString("g")</MudText>
+                    </MudItem>
+                    
+                    <MudItem xs="12" sm="6">
+                        <MudText Typo="Typo.body2" Color="Color.Default" Class="mb-1" Style="opacity: 0.6;">Updated At</MudText>
+                        <MudText Typo="Typo.body1">@users.UpdatedAt.ToString("g")</MudText>
                     </MudItem>
                 </MudGrid>
             </MudCardContent>
@@ -54,39 +78,19 @@
     }
     else
     {
-        <MudAlert Severity="Severity.Warning">Campaign not found.</MudAlert>
+        <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-4" />
+        <MudText Typo="Typo.body1" Class="text-center">Loading user details...</MudText>
     }
 </MudContainer>
 
 @code {
-    //this  is for details of campaign on clicked Id 
     [Parameter]
-    public int Id { get; set; }
-    
-    private User users;
-    protected override void OnInitialized()
-    {
-        users = await IdentityService.GetUserById(Id);
-    }
+    public int id { get; set; }
 
-    private void BackToCampaigns()
-    {
-        NavigationManager.NavigateTo("/User");
-    }
-///format date and budget
-
-//
+    private UserDetailDTO? users;
     
-//status color
-    private Color GetStatusColor(string status)
+    protected override async Task OnInitializedAsync()
     {
-        return status?.ToLower() switch
-        {
-            "active" => Color.Success,
-            "inactive" => Color.Default,
-            "completed" => Color.Info,
-            "pending" => Color.Warning,
-            _ => Color.Default
-        };
+        users = await IdentityService.GetUserById(id);
     }
-} *@
+}
