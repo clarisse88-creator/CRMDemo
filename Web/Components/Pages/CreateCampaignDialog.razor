@@ -1,5 +1,6 @@
 @using  Application.DTO
 @using System.ComponentModel.DataAnnotations
+@using Application.Interface
 @using Domain.Entities
 @using Application.Services.Campaigns
 @using MudBlazor
@@ -49,11 +50,21 @@
 @code{
     [CascadingParameter] IMudDialogInstance DialogInstance { get; set; }
     private CampaignCreateDTO Model {get;set;} = new ();
-    private void onValidSubmit()
+
+     [Parameter]
+    public EventCallback OnCustomerCreated { get; set; }
+    private async Task onValidSubmit()
     {
         CampaignService.CreateCampaign(Model);
         Snackbar.Add("Campaign created successfully!", Severity.Success);
         DialogInstance.Close();
+
+        CampaignService.GetAllCampaigns();
     }
+    @* private void LoadCampaigns()
+    {
+        campaigns = CampaignService.GetAllCampaigns();
+        StateHasChanged();
+    } *@
 
 }

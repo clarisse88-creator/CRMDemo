@@ -10,12 +10,12 @@
 <PageTitle>User Detail</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.Medium" Class="mt-6">
-    <MudButton Color="Color.Default" 
+    <MudButton Color="Color.Success" 
                Variant="Variant.Text" 
                StartIcon="@Icons.Material.Filled.ArrowBack"
                OnClick="@(() => Navigation.NavigateTo("/User"))" 
                Class="mb-4">
-        Back to Users 
+        Back to Users list 
     </MudButton>
 
     @if (users != null)
