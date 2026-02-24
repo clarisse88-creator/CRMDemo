@@ -36,9 +36,6 @@ namespace Infrastructure.Repositories
                 EndDate = campaignDTO.EndDate,
                 Budget = campaignDTO.Budget,
                 Status = campaignDTO.Status,
-              
-                
-
             };
             dbContext.Campaigns.Add(campaign);
             dbContext.SaveChanges();
