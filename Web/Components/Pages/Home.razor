@@ -19,33 +19,13 @@
             <MudText Typo="Typo.body2" Color="Color.Secondary">
                 Get started by managing your customers, tickets, campaigns, and users.
             </MudText>
+            
         </MudCardContent>
     </MudCard>
-    <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="4">
-    <MudText Typo="Typo.h6"></MudText>
-    <MudButton Variant="Variant.Filled" 
-           Color="Color.Warning" 
-              StartIcon="@Icons.Material.Filled.Campaign"
-           Href="/Campaigns">
-    Navigate to Campaign Page
-</MudButton>
-<MudButton Variant="Variant.Filled" 
-           Color="Color.Warning" 
-           StartIcon="@Icons.Material.Filled.Person"
-           Href="/Customers">
-    View Customer Profile
-</MudButton>
- <MudButton Variant="Variant.Filled" 
-           Color="Color.Warning" 
-           Href="/SupportTicket">
-    Navigate to Campaign Page
-</MudButton>
-</MudStack>
 </MudContainer>
-
 @code {
     private  List<CityCountDTO> cityCountCount = new List<CityCountDTO>();
-        
+        private int TotalCity => cityCountCount .Sum(t => t.Count);
     protected override  void OnInitialized()
     {
         

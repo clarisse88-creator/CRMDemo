@@ -1,0 +1,14 @@
+
+<MudCard  Elevation="2">
+<MudCardContent>
+    <MudText Typo="Typo.h6">@Title </MudText>
+    <MudText Typo="Typo.h6">@Value </MudText>
+</MudCardContent>
+</MudCard>
+@code{
+    [Parameter]
+public string Title{get;set;}= string.Empty;
+ [Parameter]
+public string Value{get;set;} =string.Empty;
+
+}
