@@ -1,5 +1,6 @@
 ﻿@page "/Customers"
 
+@using Application.DTO
 @using Application.Services.Customers
 @using Domain.Entities
 @using MudBlazor
@@ -100,7 +101,7 @@
     List<Customer> customers = new List<Customer>();
     protected override void OnInitialized()
         {
-            customers = CustomerService.GetAllCustomers();
+            customers = CustomerService.GetAllCustomers( new CustomerFilterDTO());
         }  
         protected IDialogReference dialogReference;
           private Color GetStatusColor(string status)
@@ -114,7 +115,12 @@
             _ => Color.Default
         };
     }
-
+   private CustomerFilterDTO filter =new(){
+      City = "Kigali"  
+       };
+   
+    
+   
        private async Task OpenDialog()
     {
     var dialog = await DialogService.ShowAsync<CustomerCreateDialog>("Add Customer");
@@ -122,7 +128,7 @@
 
     if (result != null && !result.Canceled)
     {
-        customers = CustomerService.GetAllCustomers();
+        customers = CustomerService.GetAllCustomers( filter);
     }
        
     }  

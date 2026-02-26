@@ -5,7 +5,7 @@ namespace  Application.Services.Tickets
 {
     public interface ITicketService
     {
-     List<Ticket> GetAllTickets();
+     List<Ticket> GetAllTickets( TicketFilterDTO filter);
      Ticket GetTicketById(int Id);
 
       void CreateTicket(TicketCreateDTO ticketDTO);

@@ -13,6 +13,14 @@ namespace Application.DTO
         public string Type { get; set; }
         public DateTime closedAt { get; set; }
     }
+    public  class TicketFilterDTO
+    {
+       public string CustomerId { get; set; }
+        public string CreatedAt { get; set; } 
+        public string closedAt { get; set; } 
+         public string Status { get; set; }
+          public string SearchTerm{get;set;}
+    }
 
     public class TicketUpdateDTO
     {

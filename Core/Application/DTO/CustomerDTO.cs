@@ -11,7 +11,19 @@ namespace Application.DTO
         public string Type { get; set; }
         public string CreatedBy { get; set; }
     }
+    public class CustomerFilterDTO
+    {
+        public string Email{get;set;}
+        public string City{get;set;}
+        public string CreatedBy{get;set;}
+        public string SearchTerm{get;set;}
 
+    }
+    public class CityCountDTO
+    {
+        public string city{get;set;}
+        public int Count{get;set;}
+    }
     public class CustomerUpdateDTO
     {
       

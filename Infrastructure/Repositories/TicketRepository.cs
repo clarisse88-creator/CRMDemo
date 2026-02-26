@@ -12,8 +12,9 @@ namespace Infrastructure.Repositories
            dbContext=context; 
         }
         // Repository for retrieving ticket data
-        public List<Ticket> GetAllTickets()
+        public List<Ticket> GetAllTickets( TicketFilterDTO filter)
         {
+            
           List<Ticket> tickets = dbContext.Tickets.ToList();
           return tickets;
         }

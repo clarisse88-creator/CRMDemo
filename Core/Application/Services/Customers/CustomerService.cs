@@ -14,9 +14,9 @@ namespace Application.Services.Customers
         {
             Customer = customers;
         }
-        public List<Customer> GetAllCustomers()
+        public List<Customer> GetAllCustomers(CustomerFilterDTO filter)
         {
-         List<Customer> customers = Customer.GetAllCustomers();
+         List<Customer> customers = Customer.GetAllCustomers(filter);
          return customers;
         }
        public Customer GetCustomerById(int Id)
@@ -30,6 +30,10 @@ namespace Application.Services.Customers
         public void UpdateCustomer(int Id, CustomerUpdateDTO customerDTO)
         {
             Customer.UpdateCustomer(Id, customerDTO);
+        }
+           public  List<CityCountDTO> GetCityCustomerCityByCity()
+        {
+            return Customer.GetCityCustomerCityByCity();
         }
     } 
 }

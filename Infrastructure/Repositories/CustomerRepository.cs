@@ -2,6 +2,7 @@ using Application.DTO;
 using Application.Interface;
 using Domain.Entities;
 using Infrastructure.Data;
+
 namespace Infrastructure.Repositories
 {
     public class CustomerRepository : ICustomer
@@ -12,8 +13,18 @@ namespace Infrastructure.Repositories
            dbContext=context; 
         }
         // Repository for retrieving customer data
-        public List<Customer> GetAllCustomers()
+        public List<Customer> GetAllCustomers( CustomerFilterDTO filter)
         {
+           IQueryable<Customer> query = dbContext.Customers;
+            if(!string.IsNullOrEmpty(filter.SearchTerm))
+            {
+                query = query.Where(c => c.Name.Contains(filter.SearchTerm));
+            }
+            if(!string.IsNullOrEmpty(filter.City))
+            {
+                query = query.Where(c => c.City.Contains(filter.City));
+            }
+
           List<Customer> customers = dbContext.Customers.ToList();
           return customers;
         }
@@ -54,6 +65,17 @@ namespace Infrastructure.Repositories
                 
                 dbContext.SaveChanges();
             }
+        }
+        public  List<CityCountDTO> GetCityCustomerCityByCity()
+        {
+            return dbContext.Customers
+            .GroupBy(t => t.City)
+            .Select(g =>new CityCountDTO
+            {
+               city =g .Key,
+               Count = g.Count() 
+            })
+            .ToList();
         }
 }
     }   

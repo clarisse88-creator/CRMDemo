@@ -392,6 +392,10 @@ like sending email
         NavigationManager.NavigateTo("/Campaigns");
     }
 }
+
+
+for each ticket in detail
+enum values  for like gender all other small ones
       
     
 

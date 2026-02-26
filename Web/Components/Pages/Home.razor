@@ -1,7 +1,9 @@
 ﻿@page "/"
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
-
+@using Application.DTO
+@using Application.Services.Customers
+@inject ICustomerService CustomerService
 <PageTitle>Home</PageTitle>
 
 
@@ -40,92 +42,16 @@
 </MudButton>
 </MudStack>
 </MudContainer>
-<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-10">
-    <MudPaper Elevation="0" Class="pa-4 mb-6 transparent-bg d-flex align-center justify-space-between">
-        <MudText Typo="Typo.h4" Style="font-weight: 900; letter-spacing: -1px;">DASHBOARD</MudText>
-        <MudStack Row="true" Spacing="2">
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" 
-                       StartIcon="@Icons.Material.Filled.Add" Href="/tickets/new">New Ticket</MudButton>
-        </MudStack>
-    </MudPaper>
 
-    <MudGrid>
-        <MudItem xs="12" sm="4">
-            <MudPaper Class="pa-6 rounded-xl" Elevation="4" Style="background: linear-gradient(135deg, #594AE2 0%, #7467EF 100%); color: white;">
-                <MudText Typo="Typo.subtitle2" Style="opacity: 0.8">ACTIVE CUSTOMERS</MudText>
-                <MudText Typo="Typo.h3">7</MudText>
-            </MudPaper>
-        </MudItem>
-        <MudItem xs="12" sm="4">
-            <MudPaper Class="pa-6 rounded-xl" Elevation="4">
-                <MudText Typo="Typo.subtitle2" Color="Color.Secondary">OPEN CAMPAIGNS</MudText>
-                <MudText Typo="Typo.h3">14</MudText>
-            </MudPaper>
-        </MudItem>
-        <MudItem xs="12" sm="4">
-            <MudPaper Class="pa-6 rounded-xl" Elevation="4">
-                <MudText Typo="Typo.subtitle2" Color="Color.Error">PENDING TICKETS</MudText>
-                <MudText Typo="Typo.h3">09</MudText>
-            </MudPaper>
-        </MudItem>
-
-        <MudItem xs="12">
-            <MudCard Elevation="4" Class="rounded-xl mt-4">
-                <MudCardHeader>
-                    <CardHeaderContent>
-                        <MudText Typo="Typo.h6">Recent Interactions</MudText>
-                    </CardHeaderContent>
-                </MudCardHeader>
-                <MudCardContent Class="pa-0">
-                    <MudList T="string" Clickable="true" Class="px-2">
-                        @foreach(var item in RecentActivity)
-                        {
-                            <MudListItem>
-                                <MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.SpaceBetween" Class="py-2">
-                                    <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="4">
-                                        <MudAvatar Color="@item.BrandColor" Variant="Variant.Filled">@item.CustomerInitials</MudAvatar>
-                                        <div>
-                                            <MudText Typo="Typo.body1" Style="font-weight: 600;">@item.CustomerName</MudText>
-                                            <MudText Typo="Typo.caption">Campaign: @item.CampaignName</MudText>
-                                        </div>
-                                    </MudStack>
-                                    
-                                    <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="8">
-                                        <MudChip T="string" Size="Size.Small" Variant="Variant.Text" Color="@item.StatusColor" Class="px-4">@item.Status</MudChip>
-                                        <MudButton Variant="Variant.Outlined" Size="Size.Small" Href="@($"/Customer/{item.Id}")" EndIcon="@Icons.Material.Filled.ArrowForwardIos">Manage</MudButton>
-                                    </MudStack>
-                                </MudStack>
-                            </MudListItem>
-                            <MudDivider DividerType="DividerType.Middle" />
-                        }
-                    </MudList>
-                </MudCardContent>
-            </MudCard>
-        </MudItem>
-    </MudGrid>
-</MudContainer>
 @code {
-    // Define the list so the UI can find it
-    private List<ActivityItem> RecentActivity = new();
-
-    protected override void OnInitialized()
+    private  List<CityCountDTO> cityCountCount = new List<CityCountDTO>();
+    protected override  void OnInitialized()
     {
-        // Add some mock data to see the "Good Design" in action
-        RecentActivity = new List<ActivityItem>
-        {
-            new ActivityItem { Id = 1, CustomerName = "TechCorp", CustomerInitials = "TC", CampaignName = "Q1 Upgrade", Status = "Open", StatusColor = Color.Info, BrandColor = Color.Primary },
-            new ActivityItem { Id = 2, CustomerName = "Alice Smith", CustomerInitials = "AS", CampaignName = "Referral", Status = "Resolved", StatusColor = Color.Success, BrandColor = Color.Secondary }
-        };
+        
+     LoardcityCountCount (); 
     }
-
-    public class ActivityItem
+    private void LoardcityCountCount()
     {
-        public int Id { get; set; }
-        public string CustomerName { get; set; } = "";
-        public string CustomerInitials { get; set; } = "";
-        public string CampaignName { get; set; } = "";
-        public string Status { get; set; } = "";
-        public Color StatusColor { get; set; }
-        public Color BrandColor { get; set; }
+      cityCountCount = CustomerService.GetCityCustomerCityByCity();
     }
 }

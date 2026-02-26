@@ -1,6 +1,7 @@
 ﻿
 @page "/SupportTicket"
 <h3>Support Ticket</h3>
+@using Application.DTO
 @using MudBlazor
 @using Domain.Entities
 @using Application.Services.Tickets
@@ -97,7 +98,7 @@
     List<Ticket> _supportTicket = new List<Ticket>();
      protected override void OnInitialized()
         {
-     _supportTicket = TicketService.GetAllTickets().ToList();
+     _supportTicket = TicketService.GetAllTickets( new TicketFilterDTO()).ToList();
         }
      protected IDialogReference dialogReference;
     private Color GetStatusColor(string status)
@@ -128,7 +129,7 @@
 
     if (result != null && !result.Canceled)
     {
-        _supportTicket = TicketService.GetAllTickets();
+        _supportTicket = TicketService.GetAllTickets(new TicketFilterDTO());
     }
   }
 }
