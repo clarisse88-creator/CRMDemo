@@ -8,9 +8,11 @@ namespace Infrastructure.Repositories
     public class CustomerRepository : ICustomer
     {
         private readonly ApplicationDbContext dbContext;
-        public CustomerRepository(ApplicationDbContext context)
+        private readonly IUserContext _userContext;
+        public CustomerRepository(ApplicationDbContext context , IUserContext userContext)
         {
            dbContext=context; 
+           _userContext = userContext;
         }
         // Repository for retrieving customer data
         public List<Customer> GetAllCustomers( CustomerFilterDTO filter)
@@ -42,10 +44,9 @@ namespace Infrastructure.Repositories
                 Address = customerDTO.Address,
                 City = customerDTO.City,
                 Type = customerDTO.Type,
-                
                 CreatedAt = DateTime.Now,
+                CreatedById = _userContext.Id,
                 Status = "Active"
-
             };
             dbContext.Customers.Add(customer);
             dbContext.SaveChanges();
@@ -60,7 +61,7 @@ namespace Infrastructure.Repositories
                 Customer.Address = customerDTO.Address;
                 Customer.City = customerDTO.City;
                 Customer.Type = customerDTO.Type;
-                Customer.UpdatedById = 1;
+                Customer.UpdatedById = _userContext.Id;
                 Customer.UpdatedAt = DateTime.Now;
                 
                 dbContext.SaveChanges();

@@ -9,9 +9,6 @@
 @* Needed for snackbars *@
 <MudSnackbarProvider />
 
-
-
-
 <MudLayout>
  <MudAppBar>
 <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" OnClick="DrawerToggle" Edge="Edge.Start" />
@@ -22,6 +19,37 @@
     <MudLink Href="/account/login"" Color="Color.Inherit" Class="ml-4">
         <MudIcon Icon="@Icons.Material.Filled.Logout" />
     </MudLink>
+
+     @* User Profile Section *@
+        @if (UserContext.IsAuthenticated)
+        {
+            <MudMenu AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight">
+                <ActivatorContent>
+                    <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2" Class="cursor-pointer ml-2">
+                        <MudAvatar Color="Color.Secondary" Size="Size.Small">@UserContext.Initials</MudAvatar>
+                        <div Class="d-sm-none d-md-flex">
+                            <MudStack Spacing="0">
+                                <MudText Typo="Typo.body2" Style="line-height: 1.2;">@UserContext.FullName</MudText>
+                                <MudText Typo="Typo.caption" Style="line-height: 1.2; opacity: 0.8;">@UserContext.Email</MudText>
+                            </MudStack>
+                        </div>
+                        <MudIcon Icon="@Icons.Material.Filled.ArrowDropDown" Size="Size.Small" />
+                    </MudStack>
+                </ActivatorContent>
+                <ChildContent>
+                    <MudMenuItem Icon="@Icons.Material.Filled.Person">Profile</MudMenuItem>
+                    <MudDivider />
+                    <MudMenuItem Icon="@Icons.Material.Filled.Logout" Href="/account/logout">Logout</MudMenuItem>
+                </ChildContent>
+            </MudMenu>
+        }
+        else
+        {
+            <MudIconButton Icon="@Icons.Material.Filled.Logout" 
+                           Color="Color.Inherit" 
+                            Href="/account/login"
+                            title="Logout" />
+        }
     </MudAppBar>
          
     <MudDrawer @bind-Open="@_drawerOpen">

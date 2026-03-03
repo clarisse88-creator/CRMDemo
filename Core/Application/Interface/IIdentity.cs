@@ -12,7 +12,7 @@ namespace Application.Interface
         Task<UserDetailDTO?> GetUserById(int id);
         Task UpdateUser(int id, UpdateUserDTO dto);
 
-        
+        // Task<UserDetailDTO>GetCurrentUserAsync();
 
     }
 }

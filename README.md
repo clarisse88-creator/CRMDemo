@@ -397,6 +397,25 @@ like sending email
 for each ticket in detail
 enum values  for like gender all other small ones
       
+    Logging
+    ========
+
+
+    recording system histories
+    -> stored in Data base remote loggings
+    ->concel log:in terminal when you run(standard output STDOUT/STDIN)
     
 
+    Identity
+    ========
+    who logedin
+
+    Authorization
+    =============
+
+    after Identity specify what actities are able to know (roles)
+   ->track authonticated user
+
+
+inject  odit field =======================
 

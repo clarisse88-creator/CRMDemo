@@ -26,7 +26,20 @@ namespace Application.DTO
         public bool EmailConfirmed {get;set;}
         public DateTime CreatedAt {get;set;}
         public DateTime UpdatedAt {get;set;}
+         public string FullName => $"{FirstName} {LastName}".Trim();
+    
+        public string initials
+        {
+            get
+            {
+                var first = !string.IsNullOrEmpty(FirstName) ? FirstName[0].ToString().ToUpper() : "";
+                var last = !string.IsNullOrEmpty(LastName) ? LastName[0].ToString().ToUpper() : "";
+                return $"{first}{last}";
+            }
+        }
     }
+       
+    
     public class UpdateUserDTO
     {
         public string FirstName { get; set; }
@@ -45,5 +58,5 @@ namespace Application.DTO
             public string Password {get;set;} = string.Empty;
             public bool RememberMe {get;set;}
             
-        }
+        }  
 }

@@ -17,10 +17,13 @@ namespace Infrastructure.DependencyInjection
             services.AddDbContext<ApplicationDbContext>(options =>
              options.UseSqlServer(configuration.GetConnectionString("CRMDemoMSSQLConnection")),ServiceLifetime.Scoped
                 );
-
-            //register identity serevice
-
+             //register identity serevice
                 services.AddAuthenticationservice(configuration);
+
+                // Register UserContext
+                services.AddHttpContextAccessor(); 
+                services.AddScoped<IUserContext, UserContext>();
+                
             // Register other infrastructure services here
 
              services.AddScoped<ICustomer, CustomerRepository>();
