@@ -2,6 +2,7 @@
 @using Application.DTO
 @using Application.Services.Users
 @using System.ComponentModel.DataAnnotations
+@using Core.Domain.ValueObeject
 @using MudBlazor
 @using MudBlazor.Services
 @using Microsoft.AspNetCore.Components
@@ -40,8 +41,12 @@
             <MudItem xs="12">
                 <MudTextField Label="ConfirmPassword" @bind-Value="Model.Password" For="@(() => Model.ConfirmPassword)" />
             </MudItem>
-           
-            
+
+            <MudSelect Label="Role" @bind-Value="Model.Role" Required="true" Variant="Variant.Outlined" Margin="Margin.Dense" >
+                <MudSelectItem Value="@UserRole.Admin.ToString()">Admin</MudSelectItem>
+                <MudSelectItem Value="@UserRole.Customer.ToString()">Customer</MudSelectItem>
+            </MudSelect>
+
             <MudItem xs="12" class="d-flex justify-content-end">
                 <MudButton Variant="Variant.Filled" Color="Color.Primary" ButtonType="ButtonType.Submit">Add Campaign</MudButton>
                 <MudButton Href="/User" Variant="Variant.Filled" Color="Color.Error">Cancel</MudButton>

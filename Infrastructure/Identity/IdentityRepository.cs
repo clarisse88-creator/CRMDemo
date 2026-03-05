@@ -1,7 +1,7 @@
 
-using System.Net.Http.Headers;
 using Application.DTO;
 using Application.Interface;
+using Core.Domain.ValueObeject;
 using Domain.Entities;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
@@ -43,15 +43,19 @@ namespace Infrastructure.Identity
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
             };
-            
-            var result = await _userManager.CreateAsync(newUser, dto.Password);
-            
+
+           var result = await _userManager.CreateAsync(newUser, dto.Password);
             if (!result.Succeeded)
             {
                 var errors = string.Join(", ", result.Errors.Select(e => e.Description));
-                throw new Exception($"User registration failed: {errors}");
+                throw new InvalidOperationException($"Failed to create user: {errors}");
             }
 
+            // Assign role to user
+            if (!string.IsNullOrEmpty(dto.Role))
+            {
+                await _userManager.AddToRoleAsync(newUser, dto.Role);
+            }
         }
         public async Task<List<UserDetailDTO>> GetAllUsers()
         {
@@ -110,10 +114,27 @@ namespace Infrastructure.Identity
                 var errors = string.Join(", ", result.Errors.Select(e => e.Description));
                 throw new InvalidOperationException($"User update failed: {errors}");
             }
+            // Update user role if provided
+            if (!string.IsNullOrEmpty(dto.Role))
+            {
+                var currentRoles = await _userManager.GetRolesAsync(user);
+                if (!currentRoles.Contains(dto.Role))
+                {
+                    await _userManager.RemoveFromRolesAsync(user, currentRoles); // Remove from older roles
+                    await _userManager.AddToRoleAsync(user, dto.Role); // Add to new role for user
+                }
+            }
         }
     public async Task<bool> LoginAsync (LoginDTO dto)
       {
         
+        if (!await _roleManager.Roles.AnyAsync())
+        {
+           await _roleManager.CreateAsync(new IdentityRole<int> { Name = UserRole.Admin.ToString() });
+           await _roleManager.CreateAsync(new IdentityRole<int> { Name = UserRole.Customer.ToString() });     
+        }
+
+
         var user = await _userManager.FindByEmailAsync(dto.Email);
         if (user == null)
             {
@@ -129,10 +150,9 @@ namespace Infrastructure.Identity
 
      }
      
-
-        public Task LogoutAsync()
+        public async Task LogoutAsync()
         {
-            throw new NotImplementedException();
+            await _signInManager.SignOutAsync();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager Navigation
 
 @* Required *@
 <MudThemeProvider DefaultScrollbar="true" @bind-IsDarkMode="@_isDarkMode" Theme="_theme"/>
@@ -10,17 +11,17 @@
 <MudSnackbarProvider />
 
 <MudLayout>
- <MudAppBar>
-<MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" OnClick="DrawerToggle" Edge="Edge.Start" />
-         My Application
- <MudSpacer />
-    <MudIconButton  Icon="@(_isDarkMode ? Icons.Material.Filled.LightMode : Icons.Material.Filled.DarkMode)"Color="Color.Inherit"OnClick="ToggleTheme" />
+<MudAppBar Elevation="0" Dense="true">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudText Typo="Typo.h6" Class="ml-2">CRM Demo</MudText>
 
-    <MudLink Href="/account/login"" Color="Color.Inherit" Class="ml-4">
-        <MudIcon Icon="@Icons.Material.Filled.Logout" />
-    </MudLink>
-
-     @* User Profile Section *@
+        <MudSpacer />
+        <MudIconButton Icon="@(_isDarkMode ? Icons.Material.Filled.LightMode : Icons.Material.Filled.DarkMode)" 
+                       Color="Color.Inherit" 
+                       OnClick="ToggleTheme"
+                       title="@(_isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode")" />
+        
+        @* User Profile Section *@
         @if (UserContext.IsAuthenticated)
         {
             <MudMenu AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight">
@@ -39,7 +40,7 @@
                 <ChildContent>
                     <MudMenuItem Icon="@Icons.Material.Filled.Person">Profile</MudMenuItem>
                     <MudDivider />
-                    <MudMenuItem Icon="@Icons.Material.Filled.Logout" Href="/account/logout">Logout</MudMenuItem>
+                    <MudMenuItem Icon="@Icons.Material.Filled.Logout" OnClick="HandleLogout">Logout</MudMenuItem>
                 </ChildContent>
             </MudMenu>
         }
@@ -47,8 +48,8 @@
         {
             <MudIconButton Icon="@Icons.Material.Filled.Logout" 
                            Color="Color.Inherit" 
-                            Href="/account/login"
-                            title="Logout" />
+                           OnClick="HandleLogout"
+                           title="Logout" />
         }
     </MudAppBar>
          
@@ -92,5 +93,10 @@
             Primary = Colors.Blue.Default
         }
     };
+
+    private void HandleLogout()
+    {
+        Navigation.NavigateTo("/account/logout", forceLoad: true);
+    }
 
 }

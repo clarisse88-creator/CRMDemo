@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "sa+630IAx+o=",
+  "dgSpecHash": "DPAKAIOiIZY=",
   "success": true,
   "projectFilePath": "C:\\Users\\HP\\source\\repos\\CRMDemo\\Core\\Application\\Application.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\HP\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.0\\microsoft.extensions.dependencyinjection.abstractions.10.0.0.nupkg.sha512",
+    "C:\\Users\\HP\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\10.0.0\\microsoft.extensions.logging.abstractions.10.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
