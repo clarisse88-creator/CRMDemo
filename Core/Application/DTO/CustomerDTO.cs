@@ -13,7 +13,7 @@ namespace Application.DTO
         public string Address { get; set; }
         public string City { get; set; }
         public string Type { get; set; }
-        public string CreatedBy { get; set; }
+        public string CreatedBy{get;set;}
     }
     public class CustomerFilterDTO
     {

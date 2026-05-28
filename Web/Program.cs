@@ -7,6 +7,8 @@ using Infrastructure.DependencyInjection;
 using Infrastructure.Identity;
 using Application.Services.Users;
 using MudBlazor.Services;
+using Web.Helpers;
+using Application.Services.Reports;
 
 var builder = WebApplication.CreateBuilder(args);
 //regist mudblazor services
@@ -26,11 +28,18 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
  builder.Services.AddScoped<ITicketService, TicketService>();
  builder.Services.AddScoped<ICampaignService, CampaignService>();
  builder.Services.AddScoped<IIdentityService, IdentityService>();
+ builder.Services.AddScoped<ICustomerReportService, CustomerReportService>();
 
-
+// calling api client
+builder.Services.AddHttpClient<ApiClient>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["ApiSettings:BaseUrl"]!);
+    client.DefaultRequestHeaders.Add("X-Api-Key", builder.Configuration["ApiSettings:ApiKey"]!);
+});
  
 
 var app = builder.Build();
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

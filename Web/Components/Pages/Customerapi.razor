@@ -1,0 +1,142 @@
+@page "/apicustomers"
+
+@using Application.DTO
+@using Application.Services.Customers
+@using Domain.Entities
+@using MudBlazor
+@using Microsoft.AspNetCore.Authorization
+@using Web.Helpers
+@attribute [Authorize]
+
+@inject IDialogService DialogService
+@inject ICustomerService CustomerService 
+@inject ApiClient ApiClient
+
+<PageTitle>Customer</PageTitle>
+
+<h3>Welcome to Customers page</h3>
+
+<div> 
+@* <a href="/Customers/create" class="btn btn-secondary">Add Customer</a> *@
+      @* <MudButton Href="/Customers/create" Variant="Variant.Filled" Color="Color.Primary">Add Customer</MudButton> *@
+<MudSpacer />
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>OpenDialog())">+AddCustomer</MudButton>
+
+</div>
+<MudContainer MaxWidth="MaxWidth.Large" Class="py-8">
+    <MudPaper Elevation="0" Class="mb-6">
+        <MudStack Row="true" Spacing="1" AlignItems="AlignItems.Center" Class="p-6">
+  <MudPaper Elevation="1">
+            <MudDataGrid T="Customer"
+                         Items="@customers"
+                         Hover="true"
+                         Bordered="true"
+                         Striped="true"
+                          Dense="false"
+                         Class="mud-elevation-1"
+                         RowsPerPage="10" >
+
+                <Columns>
+
+                    <!-- ID -->
+                    <PropertyColumn Property="x => x.Id" Title="Id" Sortable="true" />
+
+                    <!-- NAME -->
+                    <PropertyColumn Property="x => x.Name" Title="Name" Sortable="true" />
+
+                    <!-- EMAIL -->
+                    <PropertyColumn Property="x => x.Email" Title="Email" Sortable="true" />
+
+                    <!-- ADDRESS -->
+                    <PropertyColumn Property="x => x.Address" Title="Address" Sortable="true" />
+
+                    <!-- PHONENUMBER -->
+                    <PropertyColumn Property="x => x.PhoneNumber" Title="PhoneNumber" Sortable="true" />
+
+                    <!-- CITY -->
+                    <PropertyColumn Property="x => x.City" Title="City" Sortable="true" />
+
+                    <!-- TYPE -->
+                    <PropertyColumn Property="x => x.Type" Title="Type" Sortable="true" />
+
+                    <!-- STATUS -->
+                    <PropertyColumn Property="x => x.Status" Title="Status" Sortable="true" />
+
+                    <!-- CREATED AT -->
+                    <PropertyColumn Property="x => x.CreatedAt" Title="CreatedAt" Sortable="true" />
+
+                    <!-- ACTIONS -->
+                    <TemplateColumn Title="Action">
+                        <CellTemplate>
+                            <MudStack Row="true" Spacing="2" Justify="Justify.Center">
+                                <MudButton Href="@string.Format("/Customers/Edit/{0}", context.Item.Id)"
+                                           Variant="Variant.Filled"
+                                           Color="Color.Warning"
+                                           Size="Size.Small"
+                                           StartIcon="@Icons.Material.Filled.Edit">
+                                    Edit
+                                </MudButton>
+
+                                <MudButton Href="@string.Format("/Customers/{0}", context.Item.Id)"
+                                           Variant="Variant.Filled"
+                                           Color="Color.Primary"
+                                           Size="Size.Small"
+                                           StartIcon="@Icons.Material.Filled.MoreHoriz">
+                                    View
+                                </MudButton>
+                            </MudStack>
+                        </CellTemplate>
+                    </TemplateColumn>
+                </Columns>
+                <PagerContent>
+        <MudTablePager PageSizeOptions="new int[]{5,10,20}" />
+    </PagerContent>
+    </MudDataGrid>
+    </MudPaper>
+    </MudStack>
+    </MudPaper>
+  </MudContainer>
+
+  
+
+@code {
+    List<Customer> customers = new List<Customer>();
+    protected override async Task OnInitializedAsync()
+    {
+        @* customers = CustomerService.GetAllCustomers( new CustomerFilterDTO()); *@
+        customers = (await ApiClient.GetAllAsync<Customer>("api/customers")).ToList();
+
+    }  
+    protected IDialogReference dialogReference;
+          private Color GetStatusColor(string status)
+    {
+        return status switch
+        {
+            "Active" => Color.Success,
+            "Completed" => Color.Info,
+            "Pending" => Color.Warning,
+            "Cancelled" => Color.Error,
+            _ => Color.Default
+        };
+    }
+   private CustomerFilterDTO filter =new(){
+      City = "Kigali"  
+       };
+   
+    
+    
+    private async Task OpenDialog()
+    {
+    var dialog = await DialogService.ShowAsync<CustomerCreateDialog>("Add Customer");
+    var result = await dialog.Result;
+
+    if (result != null && !result.Canceled)
+    {
+        customers = CustomerService.GetAllCustomers( filter);
+    } 
+       
+    }  
+   
+ 
+    }
+  

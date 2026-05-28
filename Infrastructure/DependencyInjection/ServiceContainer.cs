@@ -6,6 +6,8 @@ using Application.Interface;
 using Infrastructure.Repositories;
 using Infrastructure.Identity;
 using Application.Services.Users;
+using Infrastructure.Services.Reports;
+using Application.Interfaces;
 
 namespace Infrastructure.DependencyInjection
 {
@@ -31,6 +33,7 @@ namespace Infrastructure.DependencyInjection
              services.AddScoped<ITicket, TicketRepository>();
             //  services.AddScoped<IUser, UserRepository>();
              services.AddScoped<IIdentity, IdentityRepository>();
+             services.AddScoped<IReportGenerator, ReportGenerator>();
            
 
             return services;
